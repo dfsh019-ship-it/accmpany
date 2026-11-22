@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧭 心靈導航 — 國中輔導活動課互動小幫手（文青手繪手帳版）</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Zen Maru Gothic 圓體 + Noto Serif TC 文青明體 + Noto Sans TC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Zen Maru Gothic"', '"Noto Sans TC"', 'sans-serif'],
+                        serif: ['"Noto Serif TC"', 'serif'],
+                        rounded: ['"Zen Maru Gothic"', 'sans-serif'],
+                    },
+                    colors: {
+                        linen: '#FAF7F2',
+                        paper: '#FFFDF9',
+                        rose: {
+                            50: '#FBF4F2',
+                            100: '#F4E3DE',
+                            400: '#E2B4A6',
+                            500: '#D49A89',
+                            600: '#B87A68',
+                        },
+                        sage: {
+                            50: '#F2F6F2',
+                            100: '#E1EAE1',
+                            400: '#9CAF9E',
+                            500: '#829A84',
+                            600: '#647C66',
+                        },
+                        caramel: {
+                            100: '#EFE6DF',
+                            400: '#A98B7C',
+                            500: '#8C6D5E',
+                            600: '#6E5346',
+                        },
+                        oat: {
+                            50: '#FCF9F0',
+                            100: '#F3E5C3',
+                            400: '#E5CE98',
+                            500: '#D4B775',
+                        },
+                        charcoal: '#4A443F'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 文青亞麻紙張與細微點陣紋理 */
+        body {
+            background-color: #FAF7F2;
+            background-image: 
+                radial-gradient(#DCD3C6 1.1px, transparent 1.1px),
+                linear-gradient(to bottom, rgba(250, 247, 242, 0.7), rgba(243, 229, 195, 0.18));
+            background-size: 20px 20px, 100% 100%;
+            color: #4A443F;
+        }
+
+        /* 手繪雙層虛線手帳卡片 */
+        .journal-card {
+            background-color: #FFFDF9;
+            border-radius: 22px;
+            border: 1.5px solid #E5DDD0;
+            box-shadow: 0 4px 16px rgba(140, 109, 94, 0.07), 0 2px 0 rgba(140, 109, 94, 0.08);
+            position: relative;
+        }
+        .journal-dashed-inner {
+            border: 1.5px dashed #DFD4C5;
+            border-radius: 16px;
+        }
+
+        /* 紙膠帶裝飾 (Washi Tape) */
+        .washi-tape {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-1.5deg);
+            width: 84px;
+            height: 20px;
+            background-color: rgba(226, 180, 166, 0.55);
+            border-left: 2px dotted rgba(255,255,255,0.7);
+            border-right: 2px dotted rgba(255,255,255,0.7);
+            backdrop-filter: blur(1px);
+            pointer-events: none;
+            z-index: 5;
+        }
+        .washi-tape-sage {
+            background-color: rgba(156, 175, 158, 0.52);
+            transform: translateX(-50%) rotate(1.8deg);
+        }
+        .washi-tape-oat {
+            background-color: rgba(243, 229, 195, 0.85);
+            transform: translateX(-50%) rotate(-1deg);
+        }
+
+        /* 文青手感按鈕 */
+        .craft-btn {
+            box-shadow: 0 3px 0 rgba(74, 68, 63, 0.12);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .craft-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 0 rgba(74, 68, 63, 0.14);
+        }
+        .craft-btn:active:not(:disabled) {
+            transform: translateY(1px);
+            box-shadow: 0 1px 0 rgba(74, 68, 63, 0.12);
+        }
+
+        /* 莫蘭迪彩虹漸層 */
+        .morandi-rainbow-btn {
+            background: linear-gradient(120deg, #D49A89 0%, #DFC07C 32%, #829A84 65%, #9B8EA9 100%);
+            background-size: 200% 200%;
+            animation: morandiShift 7s ease infinite;
+        }
+        @keyframes morandiShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 3D 翻牌動畫 */
+        .perspective-1000 { perspective: 1000px; }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card-inner.is-flipped { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 24px;
+        }
+        .flip-card-back { transform: rotateY(180deg); }
+
+        .card-back-pattern {
+            background: 
+                radial-gradient(circle at 22% 28%, rgba(255,255,255,0.28) 2px, transparent 3px),
+                radial-gradient(circle at 78% 72%, rgba(255,255,255,0.28) 2.5px, transparent 3.5px),
+                linear-gradient(135deg, #D49A89 0%, #DFC07C 50%, #829A84 100%);
+        }
+
+        /* 手繪SVG浮動微動畫 */
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-4px) rotate(2deg); }
+        }
+        .sketch-float {
+            animation: gentleFloat 4.5s ease-in-out infinite;
+        }
+
+        /* 訊息彈出動畫 */
+        @keyframes popIn {
+            0% { opacity: 0; transform: translateY(10px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .msg-animate { animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+        .typing-dot { animation: typingBounce 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typingBounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #D7CEC0; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #B8AE9E; }
+    </style>
+</head>
+<body class="text-charcoal h-screen flex flex-col overflow-hidden selection:bg-oat-100 selection:text-charcoal">
+
+    <!-- 頂部文青手繪導覽列 -->
+    <header class="bg-paper/95 backdrop-blur-md border-b border-caramel-100 px-3 py-2.5 sm:px-6 flex items-center justify-between shadow-2xs z-20 shrink-0">
+        <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" onclick="switchView('chat')">
+            <!-- 手繪感指南針與星星 SVG Logo -->
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-oat-100 border-2 border-caramel-400/40 flex items-center justify-center shadow-2xs shrink-0 sketch-float">
+                <svg class="w-8 h-8 text-caramel-500" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="24" cy="25" r="16" stroke-dasharray="3 2" />
+                    <circle cx="24" cy="25" r="13" fill="#FFFDF9" />
+                    <polygon points="24,15 28,25 24,35 20,25" fill="#E2B4A6" stroke="#8C6D5E" stroke-width="1.8" />
+                    <circle cx="24" cy="25" r="2" fill="#4A443F" />
+                    <path d="M24 5V8M10 10L12 12M38 10L36 12" stroke="#D49A89" stroke-width="2" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="font-serif text-lg sm:text-xl font-bold text-charcoal tracking-wider flex items-center gap-2">
+                    <span>心靈導航</span>
+                    <span class="hidden md:inline-flex items-center gap-1 font-sans text-[11px] font-bold bg-sage-100 text-sage-600 border border-sage-400/50 px-2.5 py-0.5 rounded-full">
+                        ✎ 文青手繪手帳
+                    </span>
+                </h1>
+                <p class="text-[11px] sm:text-xs font-medium text-caramel-500">國中輔導活動課・陪伴你探索內心的小樹洞</p>
+            </div>
+        </div>
+
+        <!-- 右側主要功能分頁與按鈕 -->
+        <nav class="flex items-center gap-1.5 sm:gap-2">
+            <!-- 💬 心靈對話分頁 -->
+            <button id="navChatBtn" onclick="switchView('chat')" class="craft-btn bg-caramel-500 text-white font-bold text-xs sm:text-sm px-3 py-2 sm:px-3.5 sm:py-2 rounded-2xl border border-caramel-600/30 flex items-center gap-1.5">
+                <span>💬</span>
+                <span>心靈對話</span>
+            </button>
+
+            <!-- 🎲 心理遊戲分頁 (12款) -->
+            <button id="navGamesBtn" onclick="switchView('games')" class="craft-btn bg-sage-100 hover:bg-sage-400/30 text-sage-600 font-bold text-xs sm:text-sm px-3 py-2 sm:px-3.5 sm:py-2 rounded-2xl border border-sage-400/50 flex items-center gap-1.5">
+                <span>🎲</span>
+                <span>心理遊戲</span>
+                <span class="hidden lg:inline text-[10px] bg-white/80 px-1.5 py-0.5 rounded-full">12款</span>
+            </button>
+
+            <!-- 🌈 彩虹抽卡 -->
+            <button onclick="openRainbowModal()" class="craft-btn morandi-rainbow-btn text-white font-bold text-xs sm:text-sm px-3 py-2 sm:px-3.5 sm:py-2 rounded-2xl border border-white/80 flex items-center gap-1.5">
+                <span>🌈</span>
+                <span class="hidden sm:inline">彩虹抽卡</span>
+            </button>
+
+            <!-- 📝 學習單小抄 -->
+            <button onclick="openWorksheetModal()" class="craft-btn bg-oat-100 hover:bg-oat-400/40 text-charcoal font-bold text-xs sm:text-sm px-2.5 py-2 sm:px-3 sm:py-2 rounded-2xl border border-oat-400 flex items-center gap-1" title="彙整今天的對話、心理測驗與彩虹卡">
+                <span>📝</span>
+                <span class="hidden md:inline">學習單小抄</span>
+            </button>
+
+            <!-- 🆘 求助資源 -->
+            <button onclick="openHelpModal()" class="craft-btn bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs sm:text-sm px-2.5 py-2 rounded-2xl border border-rose-400/50 flex items-center gap-1" title="緊急求助專線與輔導室資訊">
+                <span>🆘</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- 視圖 1：💬 心靈導航對話區                   -->
+    <!-- ========================================== -->
+    <div id="chatViewWrapper" class="flex-1 flex flex-col overflow-hidden">
+        <main id="chatContainer" class="flex-1 overflow-y-auto px-3 py-5 sm:px-6 space-y-5 max-w-4xl w-full mx-auto scroll-smooth">
+            <!-- 動態訊息氣泡與卡片將插入此處 -->
+        </main>
+
+        <!-- 底部輸入框 -->
+        <footer class="bg-paper/95 backdrop-blur-md border-t border-caramel-100 px-3 py-3 sm:px-6 shrink-0 z-10">
+            <div class="max-w-4xl mx-auto">
+                <form id="chatForm" onsubmit="handleUserSubmit(event)" class="flex items-end gap-2 sm:gap-3">
+                    <div class="relative flex-1">
+                        <textarea
+                            id="userInput"
+                            rows="1"
+                            placeholder="點選上方主題卡片，或直接在這裡寫下你的心情與困擾..."
+                            class="w-full resize-none rounded-2xl border-2 border-caramel-100 bg-linen/60 px-4 py-3 text-sm sm:text-base font-medium text-charcoal placeholder-caramel-400 focus:border-rose-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-rose-400/15 transition max-h-32"
+                            oninput="autoResizeTextarea(this)"
+                            onkeydown="handleKeyDown(event)"
+                        ></textarea>
+                    </div>
+                    <button
+                        type="submit"
+                        id="sendBtn"
+                        class="craft-btn bg-rose-500 hover:bg-rose-600 disabled:bg-gray-300 text-white rounded-2xl px-4 py-3 sm:px-5 font-bold text-sm sm:text-base border border-white/60 flex items-center gap-1.5 shrink-0"
+                    >
+                        <span>寄出</span>
+                        <span>🕊️</span>
+                    </button>
+                    <button
+                        type="button"
+                        onclick="resetChat()"
+                        title="重新開始對話"
+                        class="craft-btn bg-white hover:bg-oat-50 text-caramel-500 rounded-2xl p-3 font-bold text-sm border border-caramel-100 shrink-0"
+                    >
+                        🔄
+                    </button>
+                </form>
+                <p class="text-[11px] font-medium text-center text-caramel-400 mt-1.5">
+                    🌿 這裡是專屬你的安全小樹洞；若遇到緊急或嚴重的困擾，請隨時舉手告訴老師或前往學校輔導室喔！
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 視圖 2：🎲 心理遊戲專區（12種熱門心理測驗）  -->
+    <!-- ========================================== -->
+    <div id="gamesViewWrapper" class="hidden flex-1 overflow-y-auto px-3 py-6 sm:px-6">
+        <div class="max-w-5xl mx-auto space-y-6 pb-10">
+            <!-- 心理遊戲區文青標頭卡片 -->
+            <div class="journal-card p-5 sm:p-7 relative overflow-hidden">
+                <div class="washi-tape washi-tape-sage"></div>
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="space-y-1.5 text-center md:text-left">
+                        <div class="inline-flex items-center gap-1.5 bg-sage-100 text-sage-600 text-xs font-bold px-3 py-1 rounded-full">
+                            <span>✨ 探索潛意識的小宇宙</span>
+                        </div>
+                        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-charcoal tracking-wide">
+                            🎲 青春心靈遊樂園・12款熱門心理測驗
+                        </h2>
+                        <p class="text-xs sm:text-sm text-caramel-500 font-medium max-w-2xl leading-relaxed">
+                            透過直覺情境小遊戲，一起發掘你隱藏的<strong>生涯天賦、性格特質、愛情依附觀與近期幸運能量</strong>！測完還可以請小幫手幫你深度解析，或收進學習單小抄喔。
+                        </p>
+                    </div>
+                    <!-- 手繪文青咖啡杯與書本 SVG 插圖 -->
+                    <div class="shrink-0 sketch-float">
+                        <svg class="w-24 h-24 sm:w-28 sm:h-28 text-caramel-500" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- 書本 -->
+                            <path d="M22 86 C22 82, 58 82, 58 86 L58 98 C58 94, 22 94, 22 98 Z" fill="#F3E5C3" />
+                            <path d="M58 86 C58 82, 94 82, 94 86 L94 98 C94 94, 58 94, 58 98 Z" fill="#FFFDF9" />
+                            <!-- 咖啡杯 -->
+                            <path d="M38 48 H78 V68 C78 78, 69 84, 58 84 C47 84, 38 78, 38 68 Z" fill="#E2B4A6" />
+                            <path d="M78 54 H86 C91 54, 93 58, 93 62 C93 66, 91 70, 86 70 H78" />
+                            <!-- 咖啡熱氣與愛心 -->
+                            <path d="M48 38 C46 33, 51 29, 49 24" stroke="#9CAF9E" />
+                            <path d="M60 36 C58 31, 63 27, 61 22" stroke="#9CAF9E" />
+                            <path d="M70 39 C68 34, 73 30, 71 25" stroke="#9CAF9E" />
+                            <path d="M58 63 C55 59, 50 61, 52 65 C54 68, 58 71, 58 71 C58 71, 62 68, 64 65 C66 61, 61 59, 58 63 Z" fill="#FFFDF9" stroke="none" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 分類篩選膠囊標籤 -->
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-5 pt-4 border-t border-dashed border-caramel-100" id="gameFilterBar">
+                    <button onclick="filterGames('all')" data-cat="all" class="game-filter-btn craft-btn bg-caramel-500 text-white text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full">
+                        ✨ 全部測驗 (12)
+                    </button>
+                    <button onclick="filterGames('career')" data-cat="career" class="game-filter-btn craft-btn bg-oat-100 text-caramel-600 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full">
+                        🧭 生涯與天賦 (3)
+                    </button>
+                    <button onclick="filterGames('trait')" data-cat="trait" class="game-filter-btn craft-btn bg-sage-100 text-sage-600 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full">
+                        🌿 性格與特質 (3)
+                    </button>
+                    <button onclick="filterGames('love')" data-cat="love" class="game-filter-btn craft-btn bg-rose-100 text-rose-600 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full">
+                        💌 青春與愛情 (3)
+                    </button>
+                    <button onclick="filterGames('luck')" data-cat="luck" class="game-filter-btn craft-btn bg-purple-100/80 text-purple-700 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full">
+                        🔮 近期運勢與療癒 (3)
+                    </button>
+                </div>
+            </div>
+
+            <!-- 12 款心理測驗卡片網格 -->
+            <div id="gamesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- JS 動態渲染 12 張文青測驗卡片 -->
+            </div>
+
+            <!-- 返回對話按鈕 -->
+            <div class="text-center pt-2">
+                <button onclick="switchView('chat')" class="craft-btn bg-white hover:bg-oat-50 text-caramel-600 font-bold text-sm px-6 py-3 rounded-2xl border border-caramel-200 inline-flex items-center gap-2">
+                    <span>⬅️</span>
+                    <span>回到心靈導航對話首頁</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Modal A：🎲 心理測驗遊玩與結果解析視窗       -->
+    <!-- ========================================== -->
+    <div id="quizPlayModal" class="fixed inset-0 bg-charcoal/45 backdrop-blur-xs hidden items-center justify-center p-4 z-50 overflow-y-auto">
+        <div class="journal-card max-w-xl w-full p-5 sm:p-7 shadow-2xl msg-animate relative my-auto">
+            <div class="washi-tape"></div>
+            <button onclick="closeQuizModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-linen hover:bg-rose-100 text-caramel-500 hover:text-rose-600 font-bold flex items-center justify-center border border-caramel-200 transition">
+                ✕
+            </button>
+
+            <!-- 測驗題目畫面 -->
+            <div id="quizQuestionStage" class="space-y-4">
+                <div class="flex items-center gap-2">
+                    <span id="quizCategoryBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-oat-100 text-caramel-600">類別</span>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div id="quizIconBox" class="w-12 h-12 rounded-2xl bg-linen border border-caramel-200 flex items-center justify-center text-2xl shrink-0">
+                        🎲
+                    </div>
+                    <div>
+                        <h3 id="quizTitle" class="font-serif text-xl sm:text-2xl font-bold text-charcoal">測驗標題</h3>
+                        <p id="quizScenario" class="text-sm sm:text-[15px] text-carcoal/90 font-medium leading-relaxed mt-2 bg-linen/80 p-3.5 rounded-2xl border border-dashed border-caramel-200">
+                            情境題目描述...
+                        </p>
+                    </div>
+                </div>
+
+                <div class="space-y-2.5 pt-1" id="quizOptionsList">
+                    <!-- 動態選項按鈕 -->
+                </div>
+            </div>
+
+            <!-- 測驗結果畫面 -->
+            <div id="quizResultStage" class="hidden space-y-4">
+                <div class="text-center space-y-1">
+                    <span class="inline-block text-xs font-bold bg-sage-100 text-sage-600 px-3 py-0.5 rounded-full">✨ 你的專屬心理解析卡</span>
+                    <h3 id="quizResultMainTitle" class="font-serif text-xl sm:text-2xl font-bold text-rose-600 pt-1">結果稱號</h3>
+                </div>
+
+                <div class="journal-dashed-inner bg-linen/70 p-4 sm:p-5 space-y-3">
+                    <div class="flex items-center justify-center text-4xl" id="quizResultEmoji">🌟</div>
+                    <p id="quizResultDesc" class="text-sm sm:text-[15px] text-charcoal font-medium leading-relaxed">
+                        深度性格與生涯解析內容...
+                    </p>
+                    <div class="bg-white rounded-xl p-3 border border-oat-400/60 text-xs sm:text-sm">
+                        <span class="font-bold text-caramel-600">💡 給國中生的暖心小建議：</span>
+                        <span id="quizResultAdvice" class="text-charcoal font-medium">建議內容</span>
+                    </div>
+                </div>
+
+                <!-- 測驗後互動按鈕 -->
+                <div class="space-y-2.5 pt-1">
+                    <button type="button" onclick="discussQuizWithAI()" class="w-full craft-btn bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm sm:text-base py-3 px-4 rounded-2xl flex items-center justify-center gap-2">
+                        <span>💬</span>
+                        <span>請小幫手陪我聊聊這個測驗結果</span>
+                    </button>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <button type="button" id="saveQuizBtn" onclick="saveQuizToWorksheet()" class="craft-btn bg-oat-100 hover:bg-oat-400/50 text-charcoal font-bold text-xs sm:text-sm py-2.5 px-3 rounded-2xl border border-oat-400 flex items-center justify-center gap-1.5">
+                            <span>📌</span>
+                            <span>收進學習單小抄</span>
+                        </button>
+                        <button type="button" onclick="closeQuizModal()" class="craft-btn bg-white hover:bg-linen text-caramel-600 font-bold text-xs sm:text-sm py-2.5 px-3 rounded-2xl border border-caramel-200 flex items-center justify-center gap-1.5">
+                            <span>🎲</span>
+                            <span>玩其他心理測驗</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Modal B：🌈 心靈彩虹卡抽卡站 (3D翻牌互動)     -->
+    <!-- ========================================== -->
+    <div id="rainbowModal" class="fixed inset-0 bg-charcoal/45 backdrop-blur-xs hidden items-center justify-center p-4 z-50 overflow-y-auto">
+        <div class="journal-card max-w-2xl w-full p-5 sm:p-7 shadow-2xl msg-animate relative my-auto">
+            <div class="washi-tape washi-tape-oat"></div>
+            <button onclick="closeRainbowModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-linen hover:bg-rose-100 text-caramel-500 font-bold flex items-center justify-center border border-caramel-200 transition">
+                ✕
+            </button>
+
+            <div class="text-center mb-5">
+                <span class="inline-block bg-oat-100 text-caramel-600 text-xs font-bold px-3 py-1 rounded-full mb-1.5">
+                    ✨ 每天給自己一點溫柔能量
+                </span>
+                <h2 class="font-serif text-xl sm:text-2xl font-bold text-charcoal flex items-center justify-center gap-2">
+                    <span>🌈</span>
+                    <span>心靈彩虹卡抽卡站</span>
+                </h2>
+                <p id="rainbowGuideText" class="text-xs sm:text-sm text-caramel-500 font-medium mt-1">
+                    閉上眼睛深呼吸，憑直覺點選一張彩虹卡，或按下方的隨機抽取按鈕！
+                </p>
+            </div>
+
+            <div id="rainbowDeckView" class="space-y-5">
+                <div class="grid grid-cols-4 sm:grid-cols-7 gap-2.5 sm:gap-3 py-2 px-1"></div>
+                <div class="flex justify-center pt-1">
+                    <button type="button" onclick="drawRandomRainbowCard()" class="craft-btn morandi-rainbow-btn text-white font-bold text-sm sm:text-base px-6 py-3 rounded-2xl border border-white/80 flex items-center gap-2">
+                        <span>✨</span>
+                        <span>幫我隨機抽取一張</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="rainbowResultView" class="hidden flex-col items-center">
+                <div class="perspective-1000 w-full max-w-sm h-64 sm:h-72 my-2">
+                    <div id="rainbowFlipInner" class="flip-card-inner">
+                        <div class="flip-card-front card-back-pattern border-4 border-white shadow-lg flex flex-col items-center justify-center text-white p-6">
+                            <div class="text-5xl mb-2 animate-bounce">🌈</div>
+                            <div class="font-serif font-bold text-lg tracking-widest">心靈彩虹卡</div>
+                            <div class="text-xs opacity-90 mt-1">正在為你開啟祝福...</div>
+                        </div>
+
+                        <div id="rainbowCardFace" class="flip-card-back border-4 border-white shadow-xl p-6 flex flex-col justify-between text-center relative overflow-hidden">
+                            <div class="absolute -right-4 -bottom-4 text-7xl opacity-15 pointer-events-none select-none" id="cardWatermark">🌈</div>
+                            <div class="flex items-center justify-center">
+                                <span id="cardColorBadge" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs sm:text-sm font-bold bg-white/90 shadow-2xs"></span>
+                            </div>
+                            <div class="my-auto px-2">
+                                <p id="cardQuoteText" class="font-serif text-lg sm:text-xl font-bold leading-relaxed tracking-wide"></p>
+                            </div>
+                            <div class="text-xs font-bold opacity-85">✦ 心靈導航・今日專屬能量卡 ✦</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full max-w-md space-y-2.5 mt-4">
+                    <button type="button" onclick="chatAboutDrawnCard()" class="w-full craft-btn bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm sm:text-base py-3 px-4 rounded-2xl flex items-center justify-center gap-2">
+                        <span>💬</span>
+                        <span>請小幫手陪我聊聊這張卡</span>
+                    </button>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <button type="button" onclick="saveCardToWorksheet()" id="saveCardBtn" class="craft-btn bg-oat-100 hover:bg-oat-400/50 text-charcoal font-bold text-xs sm:text-sm py-2.5 px-3 rounded-2xl border border-oat-400 flex items-center justify-center gap-1.5">
+                            <span>📌</span>
+                            <span>收進學習單小抄</span>
+                        </button>
+                        <button type="button" onclick="resetRainbowDeck()" class="craft-btn bg-white hover:bg-linen text-caramel-600 font-bold text-xs sm:text-sm py-2.5 px-3 rounded-2xl border border-caramel-200 flex items-center justify-center gap-1.5">
+                            <span>🔄</span>
+                            <span>再抽一張看看</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Modal C：📝 課堂學習單小抄匯出面板            -->
+    <!-- ========================================== -->
+    <div id="worksheetModal" class="fixed inset-0 bg-charcoal/45 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="journal-card max-w-lg w-full p-6 shadow-2xl msg-animate flex flex-col max-h-[88vh] relative">
+            <div class="washi-tape washi-tape-sage"></div>
+            <div class="flex items-center justify-between mb-2 shrink-0">
+                <div class="flex items-center gap-2 text-charcoal font-serif font-bold text-lg sm:text-xl">
+                    <span>📝</span>
+                    <h3>我的輔導課學習單小抄</h3>
+                </div>
+                <button onclick="closeWorksheetModal()" class="w-8 h-8 rounded-full bg-linen text-caramel-500 hover:text-charcoal font-bold border border-caramel-200">✕</button>
+            </div>
+            <p class="text-xs text-caramel-500 font-medium mb-3 shrink-0">
+                小幫手已經自動幫你整理今天的探索主題、心理測驗發現、對話重點與彩虹卡啦！一鍵複製就能貼到線上表單或抄進學習單 ✨
+            </p>
+            <div id="worksheetContent" class="bg-linen/70 border border-dashed border-caramel-300 rounded-2xl p-4 text-sm text-charcoal leading-relaxed overflow-y-auto whitespace-pre-wrap font-medium flex-1"></div>
+            <div id="copyToast" class="hidden text-center text-xs font-bold text-sage-600 bg-sage-100 border border-sage-400 py-2 rounded-xl mt-3">
+                ✅ 已經複製到剪貼簿囉！快去貼上吧！
+            </div>
+            <div class="flex gap-3 mt-4 shrink-0">
+                <button onclick="copyWorksheetNote()" class="flex-1 craft-btn bg-sage-500 hover:bg-sage-600 text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-1.5">
+                    <span>📋</span>
+                    <span>一鍵複製內容</span>
+                </button>
+                <button onclick="closeWorksheetModal()" class="px-5 craft-btn bg-white hover:bg-linen text-caramel-600 font-bold py-3 rounded-2xl border border-caramel-200">
+                    關閉
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Modal D：🆘 緊急求助資源守護卡片              -->
+    <!-- ========================================== -->
+    <div id="helpModal" class="fixed inset-0 bg-charcoal/45 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="journal-card max-w-md w-full p-6 shadow-2xl border-2 border-rose-500 msg-animate relative">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2 text-rose-600 font-serif font-bold text-lg">
+                    <span>🤍</span>
+                    <h3>你不需要一個人面對</h3>
+                </div>
+                <button onclick="closeHelpModal()" class="w-8 h-8 rounded-full bg-linen text-caramel-500 font-bold border border-caramel-200">✕</button>
+            </div>
+            <p class="text-sm text-charcoal font-medium leading-relaxed mb-4">
+                你現在承受的這些真的太辛苦了，這不是你的錯。如果心裡覺得快喘不過氣，請立刻讓身邊的大人陪你一起度過：
+            </p>
+            <div class="space-y-3 text-sm">
+                <div class="bg-sage-50 border border-sage-400/60 rounded-2xl p-3.5">
+                    <div class="font-bold text-sage-600">🏫 學校裡最即時的陪伴</div>
+                    <p class="text-charcoal mt-1 font-medium">現在就<strong>舉手告訴課堂上的輔導老師</strong>，或下課後直接前往<strong>學校輔導室</strong>，老師們都會很願意接住你。</p>
+                </div>
+                <div class="bg-rose-50 border border-rose-400/60 rounded-2xl p-3.5 space-y-2">
+                    <div class="font-bold text-rose-600">📞 24小時免費專業求助專線</div>
+                    <div class="flex justify-between items-center bg-white px-3.5 py-2 rounded-xl border border-rose-200">
+                        <span class="font-bold text-charcoal">衛福部安心專線</span>
+                        <span class="font-black text-rose-600 text-base">1925</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-white px-3.5 py-2 rounded-xl border border-rose-200">
+                        <span class="font-bold text-charcoal">生命線協談專線</span>
+                        <span class="font-black text-rose-600 text-base">1995</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-white px-3.5 py-2 rounded-xl border border-rose-200">
+                        <span class="font-bold text-charcoal">張老師輔導專線</span>
+                        <span class="font-black text-rose-600 text-base">1980</span>
+                    </div>
+                </div>
+            </div>
+            <button onclick="closeHelpModal()" class="mt-5 w-full craft-btn bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-2xl">
+                我知道了，回到心靈導航
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. 系統指令與資料設定 (counseling-class-helper)
+        // ==========================================
+        const SYSTEM_INSTRUCTION = `
+# 輔導活動科課堂互動小幫手（心靈導航）
+
+協助台灣 12-15 歲國中生（七至九年級）在輔導活動課堂中，針對特定輔導主題進行自我探索、情境演練與問題討論，並給予溫暖、具體且不說教的即時回饋。
+
+## 說話對象與語氣規範
+- 目標受眾：台灣 12-15 歲的國中生（七至九年級）。
+- 語言與語氣：使用符合台灣青少年習慣的繁體中文，自然、親切、有同理心，像是一位值得信任的學長姐或年輕輔導老師。
+- 禁忌語氣：絕對避免官腔、說教、長篇大論或過於幼稚的語氣。禁止使用「你應該...」、「你必須...」、「這沒什麼好難過的」、「學生就該好好讀書」等否定感受或下指導棋的語句；改用「或許我們可以試試...」、「有些人會這樣做，你覺得適合你嗎？」。
+
+## 最高優先級：危機與高關懷事件處理
+若學生的輸入中出現任何關於自我傷害、自殺念頭、想消失、家暴、身體受虐、性騷擾或性侵害、嚴重校園霸凌的訊息或暗示，立刻停止一般引導，用極度溫暖、不批判的語氣接住他，並明確引導他現在舉手告訴課堂上的輔導老師、前往學校輔導室，或撥打衛福部安心專線 1925、生命線 1995、張老師專線 1980。
+
+## 核心回應架構（重要！絕對不要直接覆誦或原封不動重複學生輸入的句子，而是要針對學生的心事進行全新、有深度的溫暖回應）
+總字數控制在 250 至 350 字以內，分段清楚、善用條列與適度 Emoji，嚴格包含以下四個段落標題：
+
+1. **【看見與同理】**：接住學生的情緒，肯定他願意面對或說出這件事。
+2. **【換個角度看】**：用中性、客觀且不批判的方式，幫學生梳理問題背後的心理機制或盲點。
+3. **【課堂行動小實驗】**：提供 1 至 2 個「具體、低門檻、明天就能試試看」的微行動或溝通句型（給予具體台詞範例效果最好）。
+4. **【延伸思考問句】**：在最後提出 1 個簡短的反思問題，引導學生繼續對話或寫進課堂學習單中。
+`;
+
+        // 6 大主題（含新增第 6 項：心理遊戲）
+        const TOPICS = [
+            {
+                id: 'friendship',
+                icon: '🫂',
+                title: '人際與友誼',
+                desc: '交朋友、小團體、被排擠、跟朋友吵架',
+                badgeBg: 'bg-rose-100 text-rose-600',
+                borderHover: 'hover:border-rose-400',
+                intro: '人際關係有時候真的很讓人頭痛！在班上每天都要相處，難免會有卡關的時候。你現在比較接近哪一種情況呢？',
+                scenarios: [
+                    { code: 'A', text: '想融入某個小團體，但不知道怎麼開啟話題' },
+                    { code: 'B', text: '跟好朋友吵架或冷戰了，不知道該不該先低頭' },
+                    { code: 'C', text: '覺得朋友好像在背後說我壞話，或故意疏遠我' },
+                    { code: 'D', text: '其他困擾（我想直接打字告訴你發生了什麼事）' }
+                ]
+            },
+            {
+                id: 'study',
+                icon: '📚',
+                title: '學習與壓力',
+                desc: '考前焦慮、讀書沒動力、時間不夠用、對未來迷茫',
+                badgeBg: 'bg-oat-100 text-caramel-600',
+                borderHover: 'hover:border-oat-500',
+                intro: '面對段考、模擬考還有各種作業，覺得喘不過氣是很正常的！我們一起來看看是哪一塊讓你覺得特別累：',
+                scenarios: [
+                    { code: 'A', text: '一想到考試就很焦慮，怕考不好被罵或讓別人失望' },
+                    { code: 'B', text: '知道該讀書了，但回到家就是完全提不起勁、一直滑手機' },
+                    { code: 'C', text: '每天時間都不夠用，作業寫不完、睡眠也不足' },
+                    { code: 'D', text: '對未來升學（高中／高職）沒方向，不知道自己喜歡什麼' }
+                ]
+            },
+            {
+                id: 'family',
+                icon: '🏠',
+                title: '家庭與親子',
+                desc: '跟爸媽溝通不良、覺得不被理解、手機使用限制',
+                badgeBg: 'bg-sage-100 text-sage-600',
+                borderHover: 'hover:border-sage-500',
+                intro: '長大的過程中，我們越來越有自己的想法，但爸媽好像還把我們當小孩看，這真的很容易讓人煩躁。你家最近常發生哪種狀況？',
+                scenarios: [
+                    { code: 'A', text: '每次想好好跟爸媽溝通，講沒兩句就變成吵架或被唸' },
+                    { code: 'B', text: '覺得爸媽只看成績，根本不了解我真正的辛苦' },
+                    { code: 'C', text: '因為手機使用時間或隱私問題，跟家裡鬧得很不愉快' },
+                    { code: 'D', text: '其他家庭煩惱（我想自己打字描述看看）' }
+                ]
+            },
+            {
+                id: 'self',
+                icon: '🪞',
+                title: '自我探索與情緒',
+                desc: '認識自己的優缺點、自信心不足、莫名心情低落或生氣',
+                badgeBg: 'bg-purple-100/80 text-purple-700',
+                borderHover: 'hover:border-purple-400',
+                intro: '國中階段本來就是認識自己的重要時期，有時候連自己都搞不懂為什麼會突然心情不好。你現在比較想聊聊哪一種感覺？',
+                scenarios: [
+                    { code: 'A', text: '常常覺得自己比不上別人，對外貌或能力很沒自信' },
+                    { code: 'B', text: '最近常莫名其妙心情低落、想哭，或很容易對身邊的人發脾氣' },
+                    { code: 'C', text: '太在意別人的眼光，總是為了討好大家而委屈自己' },
+                    { code: 'D', text: '想更了解自己的優點和特質，但不知道從哪裡開始' }
+                ]
+            },
+            {
+                id: 'love',
+                icon: '💌',
+                title: '青春期與情感',
+                desc: '對某人有好感、暗戀的煩惱、界線與尊重',
+                badgeBg: 'bg-pink-100/80 text-pink-700',
+                borderHover: 'hover:border-pink-400',
+                intro: '對某個人產生特別的好感，是青春期很自然也很美好的體驗，不過伴隨而來的緊張與困惑也常讓人小鹿亂撞！你的情況是哪一種呢？',
+                scenarios: [
+                    { code: 'A', text: '偷偷喜歡一個人，每天都在猜對方的心意，搞得心神不寧' },
+                    { code: 'B', text: '好朋友剛好也喜歡同一個人，不知道該怎麼辦' },
+                    { code: 'C', text: '被不喜歡的人告白或過度關注，不知道怎麼禮貌拒絕並保持界線' },
+                    { code: 'D', text: '其他情感上的小煩惱（我想直接打字聊聊）' }
+                ]
+            },
+            {
+                id: 'games',
+                icon: '🎲',
+                title: '心理遊戲',
+                desc: '12種熱門心理測驗！探索生涯、特質、愛情與運氣',
+                badgeBg: 'bg-amber-100 text-amber-800',
+                borderHover: 'hover:border-amber-500',
+                isGameMenu: true
+            }
+        ];
+
+        // ==========================================
+        // 2. 12 種熱門心理測驗資料庫（生涯、特質、愛情、運氣）
+        // ==========================================
+        const PSYCH_TESTS = [
+            // --- 生涯與天賦 (3) ---
+            {
+                id: 'career_island',
+                category: 'career',
+                catLabel: '🧭 生涯與天賦',
+                catBadgeClass: 'bg-oat-100 text-caramel-600',
+                icon: '🏝️',
+                title: '島嶼職業探索',
+                subtitle: '無人島漂流記，測你未來的天賦領域與潛在職業類型',
+                question: '想像你和一群夥伴漂流到一座美麗的無人島，大家決定分工合作建立營地，你會第一時間自告奮勇負責哪項任務？',
+                options: [
+                    {
+                        label: 'A. 尋找木材與藤蔓，動手搭建堅固的樹屋與工具',
+                        resultTitle: '【實作巧手型・R型探索家】',
+                        emoji: '🛠️',
+                        desc: '你擁有很棒的空間感與動手解決問題的能力！比起空談理論，你更喜歡看到具體的成果在手中誕生。未來在工程設計、資訊科技、烘焙料理或運動專業領域都很容易發光。',
+                        advice: '平時可以多參加社團或實作課程，把腦中的點子變成真實作品，會帶給你滿滿成就感！'
+                    },
+                    {
+                        label: 'B. 觀察島上的植物與水源，研究哪些果實可以安全食用',
+                        resultTitle: '【好奇研究型・I型觀察家】',
+                        emoji: '🔬',
+                        desc: '你有一顆冷靜且充滿好奇心的大腦，喜歡追根究柢找出事情背後的原理。你適合需要獨立思考、分析推理的領域，像是科學研究、醫學、程式開發或心理探索。',
+                        advice: '遇到不懂的題目或生活現象時，試著多問一個「為什麼」，這份專注力就是你最強的超能力。'
+                    },
+                    {
+                        label: 'C. 用貝殼和樹葉裝飾營地，並編寫營火晚會的表演節目',
+                        resultTitle: '【靈感藝術型・A型創作家】',
+                        emoji: '🎨',
+                        desc: '你的內心住著一位浪漫的創作者，對美感、聲音或文字特別敏銳，不喜歡一成不變的死板規則。未來在視覺設計、影音創作、音樂、寫作或行銷企劃上極具潛力。',
+                        advice: '隨身帶一本小手帳或手機備忘錄，把突然冒出來的靈感畫下來或寫下來吧！'
+                    },
+                    {
+                        label: 'D. 關心每位夥伴的心情，協調大家的分工並分配物資',
+                        resultTitle: '【暖心社會型・S/E型引導者】',
+                        emoji: '🤝',
+                        desc: '你天生具備溫暖的同理心與溝通魅力，很能察覺別人的需求並凝聚團隊氣氛。未來在輔導心理、教育、醫護、活動企劃或領導管理領域都會非常受歡迎。',
+                        advice: '在照顧別人的同時，也別忘了留一點時間傾聽自己內心的聲音喔！'
+                    }
+                ]
+            },
+            {
+                id: 'career_magic',
+                category: 'career',
+                catLabel: '🧭 生涯與天賦',
+                catBadgeClass: 'bg-oat-100 text-caramel-600',
+                icon: '🪄',
+                title: '魔法學院選修課',
+                subtitle: '第一天入學你會走進哪間教室？測你的學習風格與核心優勢',
+                question: '你收到了魔法學院的入學通知，第一堂自由選修課鐘聲響起，你最想推開哪一間教室的木門？',
+                options: [
+                    {
+                        label: 'A. 充滿古老羊皮紙與星象儀的「歷史與預言研究室」',
+                        resultTitle: '【脈絡理解型學習者】',
+                        emoji: '📜',
+                        desc: '你擅長從故事、邏輯與前因後果中記憶知識，死背硬記對你來說很痛苦，但只要理解了背後的「為什麼」，你就能舉一反三、記得超牢！',
+                        advice: '讀書時試著用「心智圖」或自己說故事的方式整理筆記，效率會瞬間翻倍！'
+                    },
+                    {
+                        label: 'B. 煙霧繚繞、擺滿各種奇異藥草的「魔藥調配實驗室」',
+                        resultTitle: '【體驗操作型學習者】',
+                        emoji: '🧪',
+                        desc: '你是標準的「做中學」高手！透過親手操作、實驗、畫重點或實際演練，你的大腦會吸收得特別快，在自然實驗、數理應用或技藝課程表現亮眼。',
+                        advice: '背單字或公式時，邊唸出來邊在紙上寫畫，多感官並用最適合你！'
+                    },
+                    {
+                        label: 'C. 大家圍坐在一起練習團體咒語的「奇獸與夥伴共學堂」',
+                        resultTitle: '【互動討論型學習者】',
+                        emoji: '🦉',
+                        desc: '你在與人交流、討論的過程中思緒最活躍！當你把學會的觀念講給同學聽時，不僅能幫到別人，自己也會徹底融會貫通。',
+                        advice: '考前可以找一兩位好朋友組個小讀書會，互相出題目考對方，學習會變得超有趣！'
+                    }
+                ]
+            },
+            {
+                id: 'career_capsule',
+                category: 'career',
+                catLabel: '🧭 生涯與天賦',
+                catBadgeClass: 'bg-oat-100 text-caramel-600',
+                icon: '⏳',
+                title: '未來時光膠囊',
+                subtitle: '打開 10 年後的信箱，測你內心最渴望的生活價值觀',
+                question: '你打開了 10 年後的自己寄來的時光膠囊，信紙裡附了一張照片，你最希望照片裡的自己正在做什麼？',
+                options: [
+                    {
+                        label: 'A. 站在舞台或專業領域上，獲得眾人的掌聲與肯定',
+                        resultTitle: '【成就與影響力價值觀】',
+                        emoji: '🏆',
+                        desc: '你是一個很有目標感的人，渴望透過自己的努力被看見、發揮影響力。這份企圖心會推著你不斷突破舒適圈，成為大家眼中的閃耀榜樣。',
+                        advice: '把大目標拆解成每週的小任務，每次完成就給自己一點小獎勵吧！'
+                    },
+                    {
+                        label: 'B. 背著相機在世界各地旅行，過著自由不受拘束的生活',
+                        resultTitle: '【自由與探索價值觀】',
+                        emoji: '✈️',
+                        desc: '對你而言，人生最重要的就是體驗新鮮事物與保有自主權！你討厭被死板的框架限制，擁有很強的適應力與開闊的視野。',
+                        advice: '現在學好語言與溝通能力，就是未來帶你飛向世界最棒的機票！'
+                    },
+                    {
+                        label: 'C. 和最愛的家人、毛小孩在溫暖的客廳裡喝茶聊天',
+                        resultTitle: '【愛與歸屬感價值觀】',
+                        emoji: '🏡',
+                        desc: '你非常重視人與人之間真摯的情感連結，只要身邊重要的人平安快樂，你就會覺得心滿意足。你是身邊人最溫暖的避風港。',
+                        advice: '記得每天花幾分鐘跟家人或好友分享一件日常小事，這就是你幸福的能量來源。'
+                    }
+                ]
+            },
+
+            // --- 性格與特質 (3) ---
+            {
+                id: 'trait_forest',
+                category: 'trait',
+                catLabel: '🌿 性格與特質',
+                catBadgeClass: 'bg-sage-100 text-sage-600',
+                icon: '🦊',
+                title: '森林動物人格測驗',
+                subtitle: '在迷霧森林遇見誰？測你在團體中的隱藏角色與社交能量',
+                question: '傍晚時分你走進一座安靜的迷霧森林，小路盡頭出現了一隻主動靠近你的小動物，你覺得牠是誰？',
+                options: [
+                    {
+                        label: 'A. 眼神清澈、靜靜站在樹梢看著你的「白貓頭鷹」',
+                        resultTitle: '【冷靜洞察者・軍師型夥伴】',
+                        emoji: '🦉',
+                        desc: '你在班上或許不是最吵鬧的那一個，但觀察力超敏銳！朋友遇到煩惱時總喜歡找你商量，因為你能一針見血看到問題核心，給出最中肯的建議。',
+                        advice: '有時候不用一個人扛下所有人的情緒，偶爾也可以向朋友撒嬌說說你的心事喔。'
+                    },
+                    {
+                        label: 'B. 搖著蓬鬆大尾巴、熱情帶你尋找寶藏的「小赤狐」',
+                        resultTitle: '【點子製造機・氣氛擔當】',
+                        emoji: '🦊',
+                        desc: '你機靈又充滿幽默感，總能想到很多有趣的點子化解尷尬！跟你在一起永遠不會無聊，是團體裡不可或缺的開心果與創意引擎。',
+                        advice: '你的熱情很有感染力，當發現有同學比較害羞時，你的一句搭話會讓他超感動！'
+                    },
+                    {
+                        label: 'C. 抱著松果、溫柔地分一半給你的「小刺蝟」',
+                        resultTitle: '【外剛內柔・真誠守護者】',
+                        emoji: '🦔',
+                        desc: '剛認識你的人可能覺得你有點慢熱或害羞，但只要走進你的心裡，你會對朋友超級講義氣又細心！你非常珍惜真正懂你的知心好友。',
+                        advice: '慢熱並不是缺點，照著自己舒服的步調交朋友，吸引來的都是最真誠的夥伴。'
+                    }
+                ]
+            },
+            {
+                id: 'trait_cafe',
+                category: 'trait',
+                catLabel: '🌿 性格與特質',
+                catBadgeClass: 'bg-sage-100 text-sage-600',
+                icon: '☕',
+                title: '文青咖啡館特調',
+                subtitle: '選一杯專屬飲品，揭開你面對壓力時的真實防禦機制',
+                question: '考完試的下雨天午後，你走進一家播放著輕音樂的木質調咖啡館，你想點哪一杯特調飲品？',
+                options: [
+                    {
+                        label: 'A. 奶泡綿密、灑上肉桂粉的「熱焦糖鮮奶茶」',
+                        resultTitle: '【自我療癒型・需要溫暖充電】',
+                        emoji: '🧋',
+                        desc: '壓力大時，你習慣把自己縮進安全的小角落，透過吃美食、聽音樂或睡一覺來慢慢消化情緒。你不喜歡把負能量丟給別人，總是努力自己消化。',
+                        advice: '給自己獨處充電很棒，但如果難過超過三天，記得找個信任的人聊聊喔！'
+                    },
+                    {
+                        label: 'B. 氣泡清爽、加了新鮮檸檬片的「蜂蜜柚子氣泡飲」',
+                        resultTitle: '【行動轉移型・用活力衝破低潮】',
+                        emoji: '🍋',
+                        desc: '遇到煩心事時，你討厭一直停在原地胡思亂想！你習慣透過運動、打遊戲、找朋友大笑一場來轉換心情，復原力相當驚人。',
+                        advice: '發洩完壓力後，別忘了回頭看看問題本身，找到下次可以調整的小方法。'
+                    },
+                    {
+                        label: 'C. 茶香回甘、純粹無糖的「手沖高山烏龍茶」',
+                        resultTitle: '【理性整理型・把混亂排整齊】',
+                        emoji: '🍵',
+                        desc: '越是緊張混亂的時候，你越會強迫自己冷靜下來列清單、分析利弊。這讓你看起來很成熟可靠，但有時也會不小心給自己太大的完美主義壓力。',
+                        advice: '允許自己偶爾考砸一次或犯點小錯，不完美的你依然非常值得被喜歡！'
+                    }
+                ]
+            },
+            {
+                id: 'trait_cloud',
+                category: 'trait',
+                catLabel: '🌿 性格與特質',
+                catBadgeClass: 'bg-sage-100 text-sage-600',
+                icon: '☁️',
+                title: '雲朵情緒天氣圖',
+                subtitle: '抬頭看天空的形狀，測你內在的敏感度與創造力指數',
+                question: '下課時你站在走廊往外看，藍天上飄過一朵形狀特別的雲，你第一眼覺得它像什麼？',
+                options: [
+                    {
+                        label: 'A. 一隻正在伸懶腰的蓬松大白熊',
+                        resultTitle: '【高共感療癒系・敏感度 85%】',
+                        emoji: '🐻‍❄️',
+                        desc: '你的內心柔軟又善良，很容易感受到身邊人的情緒起伏，連看電影或聽歌都容易被深深觸動。這份細膩讓你非常懂得體貼別人。',
+                        advice: '學會區分「別人的情緒」和「我的情緒」，不要把別人的壞心情都當成自己的責任喔。'
+                    },
+                    {
+                        label: 'B. 一艘準備航向未知星球的飛空艇',
+                        resultTitle: '【天馬行空系・創造力 95%】',
+                        emoji: '🚀',
+                        desc: '你的腦袋裡裝著一座無邊無際的遊樂園！總能從平凡的日常裡發現有趣的聯想，對未來充滿想像力與冒險精神。',
+                        advice: '你的獨特想法非常珍貴，不要因為怕跟別人不一樣就把它藏起來！'
+                    },
+                    {
+                        label: 'C. 一座安靜矗立在遠方的雪白山峰',
+                        resultTitle: '【沉穩內斂系・穩定度 90%】',
+                        emoji: '🏔️',
+                        desc: '你有一顆比同齡人更沉穩的心，不容易被一時的起鬨或流言影響，清楚知道自己想要什麼，是同學眼中很有安全感的存在。',
+                        advice: '偶爾也可以放下矜持，跟著大家一起大笑瘋狂一下，體驗不一樣的青春滋味！'
+                    }
+                ]
+            },
+
+            // --- 青春與愛情 (3) ---
+            {
+                id: 'love_library',
+                category: 'love',
+                catLabel: '💌 青春與愛情',
+                catBadgeClass: 'bg-rose-100 text-rose-600',
+                icon: '📖',
+                title: '校園心動瞬間',
+                subtitle: '圖書館偶遇事件，測你在感情與友誼中的依附風格與界線',
+                question: '你在學校圖書館找一本想看很久的書，伸手時剛好跟很有好感的同學同時碰到那本書，你會怎麼反應？',
+                options: [
+                    {
+                        label: 'A. 臉紅心跳趕快縮手說：「沒關係你先看！」然後迅速飄走',
+                        resultTitle: '【害羞小鹿型・謹慎試探的觀察家】',
+                        emoji: '🦌',
+                        desc: '在喜歡的人面前，你容易因為太在意表現而變得有點緊張、甚至刻意裝作不在乎。你很重視安全感，需要確認對方的善意才敢慢慢靠近。',
+                        advice: '其實對方可能也正在緊張呢！下次試著給他一個自然的小微笑，就是最棒的破冰信號。'
+                    },
+                    {
+                        label: 'B. 大方笑著說：「你也喜歡這本喔？那我們一起看或輪流吧！」',
+                        resultTitle: '【陽光自然型・安全感滿滿的夥伴】',
+                        emoji: '🌻',
+                        desc: '你擁有很健康的「安全型依附」特質！能把心動轉化為自然真誠的互動，既不會過度討好，也不會因為害羞而築起高牆，相處起來超舒服。',
+                        advice: '繼續保持這份真誠與尊重界線的態度，你在友情和感情裡都會非常受歡迎！'
+                    },
+                    {
+                        label: 'C. 表面裝作很鎮定，心裡卻開始小劇場：他是不是故意跟我拿同一本？',
+                        resultTitle: '【細膩小劇場型・情感豐富的思考者】',
+                        emoji: '💭',
+                        desc: '你對感情充滿浪漫的想像，也很會觀察對方的每個小動作。不過有時候太過解讀細節，反而會讓自己陷入患得患失的焦慮中。',
+                        advice: '當腦中小劇場又開演時，深呼吸告訴自己：「先當作好朋友自然相處看看吧！」'
+                    }
+                ]
+            },
+            {
+                id: 'love_puzzle',
+                category: 'love',
+                catLabel: '💌 青春與愛情',
+                catBadgeClass: 'bg-rose-100 text-rose-600',
+                icon: '🧩',
+                title: '理想靈魂伴侶拼圖',
+                subtitle: '選一件共同完成的小事，測你最看重另一半的哪種特質',
+                question: '如果能和未來的理想伴侶或摯友一起完成一件日常小事，你覺得哪個畫面最讓你心動？',
+                options: [
+                    {
+                        label: 'A. 戴著同一副耳機，在放學回家的公車上分享彼此最愛的歌單',
+                        resultTitle: '【心靈共鳴・精神契合最重要】',
+                        emoji: '🎧',
+                        desc: '比起外在條件，你最看重的是「懂不懂彼此」！你渴望找到一個能聊得來、價值觀相近，連沉默都不會覺得尷尬的靈魂夥伴。',
+                        advice: '多分享你喜歡的音樂、書籍或想法，同頻率的人自然會被你吸引過來。'
+                    },
+                    {
+                        label: 'B. 在雨天共撐一把傘，他把傘默默往你這邊傾斜了大半',
+                        resultTitle: '【溫柔體貼・行動上的偏愛與尊重】',
+                        emoji: '☂️',
+                        desc: '你很看重細節裡的尊重與照顧！甜言蜜語對你來說不如實際的貼心行動，一個懂得尊重你的界線、在乎你感受的人最能打動你的心。',
+                        advice: '在感情裡互相體貼最長久，記得也要清楚表達自己的需求與界線喔！'
+                    },
+                    {
+                        label: 'C. 一起為了園遊會或比賽熬夜練習，擊掌慶祝成功的那一刻',
+                        resultTitle: '【並肩成長・互相激勵的神隊友】',
+                        emoji: '✨',
+                        desc: '你欣賞有目標、有熱情的人，希望彼此在感情中都能成為更好的人，既能互相支持，又保有各自獨立閃耀的空間。',
+                        advice: '先把自己的生活過得精彩充實，你就會遇見同樣閃閃發光的神隊友！'
+                    }
+                ]
+            },
+            {
+                id: 'love_letter',
+                category: 'love',
+                catLabel: '💌 青春與愛情',
+                catBadgeClass: 'bg-rose-100 text-rose-600',
+                icon: '✉️',
+                title: '暗戀傳紙條密碼',
+                subtitle: '收到一封沒署名的信，測你在喜歡的人面前的真實模樣',
+                question: '早上進教室抽屜裡多了一張摺成愛心形狀的淡藍色紙條，沒有寫名字，你第一直覺會怎麼做？',
+                options: [
+                    {
+                        label: 'A. 趕快收進鉛筆盒裡，一整天都在偷偷觀察班上誰在看我',
+                        resultTitle: '【含蓄內斂型・把心意藏在心底】',
+                        emoji: '🔐',
+                        desc: '你對感情相當謹慎且保護自己，不喜歡把私事攤在陽光下被起鬨。你習慣先在心裡默默評估，確定對方是真誠可靠的人才會有所回應。',
+                        advice: '保護自己的界線很棒！如果覺得困擾，也可以找信任的朋友或老師討論怎麼處理。'
+                    },
+                    {
+                        label: 'B. 馬上拿給最好的死黨看，一起像偵探一樣分析筆跡！',
+                        resultTitle: '【友情至上型・喜歡分享的開心果】',
+                        emoji: '🔍',
+                        desc: '對現在的你來說，好朋友的陪伴與討論比什麼都重要！你性格坦率開朗，遇到情感上的小疑惑也懂得尋求身邊夥伴的意見。',
+                        advice: '跟死黨討論的同時，也要記得保護寫信人的隱私，不隨意公開嘲笑喔！'
+                    },
+                    {
+                        label: 'C. 覺得有點害羞，但心裡想著「還是先把今天的段考複習完比較實在」',
+                        resultTitle: '【清醒自律型・掌握自己節奏的舵手】',
+                        emoji: '🧭',
+                        desc: '你非常清楚現階段對自己最重要的是什麼！不會因為一時的曖昧或起鬨就迷失方向，懂得在課業、友情與好感之間取得很棒的平衡。',
+                        advice: '這份清醒與自律超帥氣！照著自己的節奏前進，好事情都會在對的時間發生。'
+                    }
+                ]
+            },
+
+            // --- 近期運勢與療癒 (3) ---
+            {
+                id: 'luck_color',
+                category: 'luck',
+                catLabel: '🔮 近期運勢與療癒',
+                catBadgeClass: 'bg-purple-100/80 text-purple-700',
+                icon: '🎨',
+                title: '今日幸運色彩占卜',
+                subtitle: '憑直覺選一張色票，看看今天為你帶來好運的小提醒',
+                question: '閉上眼睛深呼吸三秒鐘，睜開眼時，哪一張文青色票最吸引你的目光？',
+                options: [
+                    {
+                        label: 'A. 【朝霧鼠尾草綠】像雨後森林葉片般的清新色彩',
+                        resultTitle: '【人際舒心運 ★★★★☆】',
+                        emoji: '🌿',
+                        desc: '今天你的身上散發著讓人安心的平靜氣場！很適合跟有點誤會的朋友破冰，或是安靜地整理書桌與筆記，會有意想不到的順暢感。',
+                        advice: '今日開運小行動：主動對今天第一個眼神對到的同學微笑說聲「早安」！'
+                    },
+                    {
+                        label: 'B. 【暖陽奶油燕麥黃】像剛出爐可頌般的溫暖色彩',
+                        resultTitle: '【靈感活力運 ★★★★★】',
+                        emoji: '🥐',
+                        desc: '你今天的創造力與行動力都在高點！原本覺得卡住的作業或報告，今天突然會冒出很棒的點子，也容易獲得老師或同學的讚美喔。',
+                        advice: '今日開運小行動：把今天完成的一件小事記下來，大聲誇獎自己一分鐘！'
+                    },
+                    {
+                        label: 'C. 【乾燥玫瑰奶茶粉】像午後晚霞般的溫柔色彩',
+                        resultTitle: '【自我療癒運 ★★★★☆】',
+                        emoji: '🌷',
+                        desc: '宇宙提醒你今天要對自己溫柔一點！最近你可能太辛苦、想太多了，今天非常適合放慢腳步，好好吃頓晚餐、早點休息充電。',
+                        advice: '今日開運小行動：喝一杯溫開水，暫停滑手機 15 分鐘，讓眼睛和大腦放個假。'
+                    }
+                ]
+            },
+            {
+                id: 'luck_gacha',
+                category: 'luck',
+                catLabel: '🔮 近期運勢與療癒',
+                catBadgeClass: 'bg-purple-100/80 text-purple-700',
+                icon: '🎰',
+                title: '神奇扭蛋機轉轉樂',
+                subtitle: '投入一枚硬幣，測你近期在人際與學業上的小確幸指數',
+                question: '你在文具店門口發現一台復古木頭扭蛋機，轉動把手後掉出一顆透明扭蛋，裡面裝著什麼？',
+                options: [
+                    {
+                        label: 'A. 一隻戴著小皇冠、正在打瞌睡的迷你橘貓公仔',
+                        resultTitle: '【貴人相助小確幸・幸運指數 92%】',
+                        emoji: '🐈',
+                        desc: '近期當你遇到不會寫的題目或忘記帶文具時，身邊總會剛好出現熱心同學伸出援手！你平時累積的好人緣正在悄悄發揮作用。',
+                        advice: '收到別人的小幫忙時，別忘了真誠地說聲「謝謝你，有你真好！」'
+                    },
+                    {
+                        label: 'B. 一把雕刻著四葉草的黃銅小鑰匙',
+                        resultTitle: '【突破關卡小確幸・幸運指數 95%】',
+                        emoji: '🗝️',
+                        desc: '困擾你一陣子的某個小煩惱，這週即將迎來轉機！只要你願意多試一次或換個方法，原本鎖住的門就會「咔噠」一聲打開囉。',
+                        advice: '挑一件你拖延了好幾天的作業或小事，今天就花 10 分鐘啟動它吧！'
+                    },
+                    {
+                        label: 'C. 一顆裝著彩色星星砂的迷你許願玻璃瓶',
+                        resultTitle: '【驚喜快樂小確幸・幸運指數 88%】',
+                        emoji: '✨',
+                        desc: '最近生活中會出現讓你嘴角上揚的小驚喜——可能是午餐剛好有你最愛的菜、抽籤幸運過關，或是聽到一首超好聽的新歌！',
+                        advice: '張大眼睛留意生活中的小美好，把快樂分享給身邊的人，好運會加倍喔！'
+                    }
+                ]
+            },
+            {
+                id: 'luck_star',
+                category: 'luck',
+                catLabel: '🔮 近期運勢與療癒',
+                catBadgeClass: 'bg-purple-100/80 text-purple-700',
+                icon: '🌠',
+                title: '星空許願瓶',
+                subtitle: '挑選一顆最亮的星星，接收宇宙給這週的祝福與行動錦囊',
+                question: '夜晚的露台上滿天星斗，你想把哪一顆閃爍的星星裝進你的玻璃許願瓶裡？',
+                options: [
+                    {
+                        label: 'A. 掛在天邊最穩定、永遠指引方向的「北極星」',
+                        resultTitle: '【定心丸祝福：慢慢來，你沒有落後】',
+                        emoji: '⭐',
+                        desc: '這週你可能會因為比較心態而有點焦慮，但北極星想告訴你：每個人都有自己的時區，只要方向對了，走得慢一點也完全沒關係。',
+                        advice: '行動錦囊：今天只專注做好「眼前這一件」事，不要一次想完一整個月的進度。'
+                    },
+                    {
+                        label: 'B. 拖著長長銀色尾巴劃過夜空的「許願流星」',
+                        resultTitle: '【勇氣祝福：勇敢說出你的想法吧】',
+                        emoji: '🌠',
+                        desc: '這週是適合表達自我的一週！無論是在課堂舉手發言、向朋友表達感受，或是拒絕不合理的要求，宇宙都會為你的勇敢撐腰。',
+                        advice: '行動錦囊：練習用「我覺得...我希望...」的句子，溫柔而堅定地表達自己。'
+                    },
+                    {
+                        label: 'C. 兩顆緊緊靠在一起、互相輝映的「雙子星」',
+                        resultTitle: '【連結祝福：有人正在默默在乎你】',
+                        emoji: '💫',
+                        desc: '有時候你會覺得孤單或不被理解，但雙子星想提醒你：在這個世界或校園裡，其實有人很珍惜你的存在，只是不擅長說出口。',
+                        advice: '行動錦囊：傳個貼圖或留張小紙條給好久沒聊天的朋友，溫暖彼此的一天吧！'
+                    }
+                ]
+            }
+        ];
+
+        // 🌈 7 色脈輪／情緒彩虹卡資料庫
+        const RAINBOW_CARDS = [
+            {
+                colorKey: 'red',
+                emoji: '🔴',
+                label: '紅色卡・安全感與行動力',
+                bgGradient: 'linear-gradient(135deg, #D4848C 0%, #E2A396 100%)',
+                textColor: 'text-white',
+                badgeTextColor: 'text-rose-700',
+                watermark: '🔥',
+                quotes: [
+                    '我有勇氣踏出第一步，就算有點緊張也沒關係。',
+                    '我的存在本身就是一件很棒的事。'
+                ]
+            },
+            {
+                colorKey: 'orange',
+                emoji: '🟠',
+                label: '橙色卡・情緒與創造力',
+                bgGradient: 'linear-gradient(135deg, #DE9A76 0%, #E8B87D 100%)',
+                textColor: 'text-white',
+                badgeTextColor: 'text-orange-700',
+                watermark: '🧡',
+                quotes: [
+                    '我的每一種情緒都值得被溫柔對待，想哭或生氣都很正常。',
+                    '我不需要討好所有人，做真實的自己就很好。'
+                ]
+            },
+            {
+                colorKey: 'yellow',
+                emoji: '🟡',
+                label: '黃色卡・自信與自我價值',
+                bgGradient: 'linear-gradient(135deg, #E5C87B 0%, #F3E0A6 100%)',
+                textColor: 'text-charcoal',
+                badgeTextColor: 'text-amber-800',
+                watermark: '☀️',
+                quotes: [
+                    '我比自己想像的還要更有力量，慢慢來也是一種前進。',
+                    '我不必跟別人比較，我有自己獨特的閃光點。'
+                ]
+            },
+            {
+                colorKey: 'green',
+                emoji: '🟢',
+                label: '綠色卡・愛與人際關係',
+                bgGradient: 'linear-gradient(135deg, #7FA389 0%, #9CAF9E 100%)',
+                textColor: 'text-white',
+                badgeTextColor: 'text-emerald-800',
+                watermark: '🍀',
+                quotes: [
+                    '真正懂我的朋友，會喜歡我原本的樣子。',
+                    '我願意用溫柔的心對待別人，也同樣溫柔地對待自己。'
+                ]
+            },
+            {
+                colorKey: 'blue',
+                emoji: '🔵',
+                label: '藍色卡・溝通與表達',
+                bgGradient: 'linear-gradient(135deg, #7B9EB8 0%, #9BB7CC 100%)',
+                textColor: 'text-white',
+                badgeTextColor: 'text-sky-800',
+                watermark: '🌊',
+                quotes: [
+                    '我有權利說出我的感受與界線，我的聲音很重要。',
+                    '深呼吸，把心裡的話慢慢說出來，一定有人願意聽。'
+                ]
+            },
+            {
+                colorKey: 'indigo',
+                emoji: '🟦',
+                label: '靛色卡・覺察與直覺',
+                bgGradient: 'linear-gradient(135deg, #747BA8 0%, #959BC2 100%)',
+                textColor: 'text-white',
+                badgeTextColor: 'text-indigo-800',
+                watermark: '🌙',
+                quotes: [
+                    '當我靜下心來，我能看見問題背後隱藏的禮物。',
+                    '每一次的困惑，都是我正在長大的證明。'
+                ]
+            },
+            {
+                colorKey: 'purple',
+                emoji: '🟣',
+                label: '紫色卡・希望與夢想',
+                bgGradient: 'linear-gradient(135deg, #9C84AC 0%, #B9A5C7 100%)',
+                textColor: 'text-white',
+                badgeTextColor: 'text-purple-800',
+                watermark: '🦄',
+                quotes: [
+                    '現在的烏雲只是暫時的，屬於我的晴天正在路上。',
+                    '我相信自己擁有把生活越過越好的魔法。'
+                ]
+            }
+        ];
+
+        const CRISIS_KEYWORDS = [
+            '自殺', '自傷', '割腕', '跳樓', '想死', '不想活', '活不下去', '活著好累',
+            '想消失', '結束生命', '了結', '家暴', '被打', '性騷擾', '性侵害', '霸凌',
+            '被欺負到想死', '吞藥', '燒炭', '離開這個世界'
+        ];
+
+        // 狀態變數
+        let chatHistory = [];
+        let selectedTopic = null;
+        let selectedScenario = null;
+        let lastAiReflection = '';
+        let currentDrawnCard = null;
+        let savedRainbowCards = [];
+        let savedQuizResults = [];
+        let activeQuiz = null;
+        let activeQuizOption = null;
+        let isGenerating = false;
+
+        // ==========================================
+        // 3. 視圖切換（心靈對話 vs 心理遊戲）
+        // ==========================================
+        function switchView(viewName) {
+            const chatView = document.getElementById('chatViewWrapper');
+            const gamesView = document.getElementById('gamesViewWrapper');
+            const navChatBtn = document.getElementById('navChatBtn');
+            const navGamesBtn = document.getElementById('navGamesBtn');
+
+            if (viewName === 'games') {
+                chatView.classList.add('hidden');
+                gamesView.classList.remove('hidden');
+                navGamesBtn.className = 'craft-btn bg-sage-600 text-white font-bold text-xs sm:text-sm px-3 py-2 sm:px-3.5 sm:py-2 rounded-2xl border border-sage-600 flex items-center gap-1.5';
+                navChatBtn.className = 'craft-btn bg-white hover:bg-oat-50 text-caramel-600 font-bold text-xs sm:text-sm px-3 py-2 sm:px-3.5 sm:py-2 rounded-2xl border border-caramel-200 flex items-center gap-1.5';
+                renderGamesGrid('all');
+            } else {
+                gamesView.classList.add('hidden');
+                chatView.classList.remove('hidden');
+                navChatBtn.className = 'craft-btn bg-caramel-500 text-white font-bold text-xs sm:text-sm px-3 py-2 sm:px-3.5 sm:py-2 rounded-2xl border border-caramel-600/30 flex items-center gap-1.5';
+                navGamesBtn.className = 'craft-btn bg-sage-100 hover:bg-sage-400/30 text-sage-600 font-bold text-xs sm:text-sm px-3 py-2 sm:px-3.5 sm:py-2 rounded-2xl border border-sage-400/50 flex items-center gap-1.5';
+            }
+        }
+
+        // ==========================================
+        // 4. 初始化首頁歡迎畫面（含手繪插圖與 6 大主題）
+        // ==========================================
+        window.onload = function () {
+            initWelcomeScreen();
+            renderGamesGrid('all');
+        };
+
+        function initWelcomeScreen() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.innerHTML = '';
+            chatHistory = [];
+            selectedTopic = null;
+            selectedScenario = null;
+            lastAiReflection = '';
+
+            // 歡迎卡片附帶手繪盆栽與微笑太陽插圖
+            const welcomeHeaderBox = document.createElement('div');
+            welcomeHeaderBox.className = 'flex items-center justify-between gap-3 bg-oat-50 border border-dashed border-oat-400 rounded-2xl p-3 mb-2.5';
+            welcomeHeaderBox.innerHTML = `
+                <div class="text-xs sm:text-sm text-caramel-600 font-bold leading-relaxed">
+                    <span class="font-serif text-base text-charcoal block mb-0.5">🌿 歡迎來到你的專屬心靈手帳</span>
+                    在這裡，每一種心情都被溫柔接住，沒有標準答案，也不會有人說教喔！
+                </div>
+                <!-- 手繪愛心小盆栽 SVG 插圖 -->
+                <svg class="w-14 h-14 text-sage-600 shrink-0 sketch-float" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 38 H42 L39 54 H25 Z" fill="#E2B4A6" stroke="#8C6D5E" />
+                    <path d="M19 34 H45 V38 H19 Z" fill="#F3E5C3" stroke="#8C6D5E" />
+                    <path d="M32 34 V20" stroke="#647C66" />
+                    <path d="M32 26 C24 26, 20 19, 25 15 C29 12, 32 18, 32 22" fill="#9CAF9E" />
+                    <path d="M32 23 C40 23, 44 16, 39 12 C35 9, 32 15, 32 19" fill="#9CAF9E" />
+                    <circle cx="48" cy="14" r="3" fill="#F3E5C3" stroke="#D49A89" />
+                </svg>
+            `;
+
+            const welcomeText = `嗨！今天在學校過得還好嗎？你可以點選下面 6 個主題卡片（包含超好玩的 12 款心理測驗！），或直接在下方輸入框跟我聊聊心事：`;
+
+            const welcomeExtra = document.createElement('div');
+            welcomeExtra.className = 'mt-3 space-y-3';
+
+            // 6 大主題文青卡片網格
+            const topicGrid = document.createElement('div');
+            topicGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-2.5';
+
+            TOPICS.forEach((topic, index) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                const isGame = topic.isGameMenu;
+                btn.className = `craft-btn text-left ${isGame ? 'bg-sage-50/90 border-sage-400/70' : 'bg-paper border-caramel-100'} hover:bg-white border-2 ${topic.borderHover} rounded-2xl p-3.5 flex items-start gap-3 group`;
+                btn.onclick = () => selectTopic(topic);
+
+                btn.innerHTML = `
+                    <div class="w-10 h-10 rounded-2xl ${topic.badgeBg} flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform border border-white">
+                        ${topic.icon}
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="font-serif font-bold text-sm sm:text-[15px] text-charcoal flex items-center justify-between">
+                            <span>${index + 1}. ${topic.title}</span>
+                            ${isGame ? '<span class="font-sans text-[10px] bg-sage-500 text-white px-2 py-0.5 rounded-full">12款測驗</span>' : ''}
+                        </div>
+                        <div class="text-xs text-caramel-500 font-medium mt-0.5 line-clamp-1">${topic.desc}</div>
+                    </div>
+                `;
+                topicGrid.appendChild(btn);
+            });
+
+            welcomeExtra.appendChild(topicGrid);
+
+            // 彩虹卡小橫幅
+            const rainbowStrip = document.createElement('button');
+            rainbowStrip.type = 'button';
+            rainbowStrip.onclick = () => openRainbowModal();
+            rainbowStrip.className = 'w-full craft-btn rounded-2xl p-3 text-left border border-oat-400/80 flex items-center justify-between gap-3 bg-gradient-to-r from-rose-50 via-oat-50 to-sage-50 group';
+            rainbowStrip.innerHTML = `
+                <div class="flex items-center gap-2.5">
+                    <span class="text-2xl group-hover:rotate-12 transition-transform">🌈</span>
+                    <div>
+                        <div class="font-bold text-xs sm:text-sm text-charcoal">想先抽一張「今日心靈彩虹卡」嗎？</div>
+                        <div class="text-[11px] text-caramel-500">憑直覺選一張色彩能量卡，領取今天給你的專屬祝福 ✨</div>
+                    </div>
+                </div>
+                <span class="text-rose-500 font-bold text-sm">抽卡 ➔</span>
+            `;
+            welcomeExtra.appendChild(rainbowStrip);
+
+            appendBotMessage(welcomeText, welcomeExtra, welcomeHeaderBox);
+        }
+
+        // ==========================================
+        // 5. 三步驟互動對話流程（修正：絕不直接覆誦輸入）
+        // ==========================================
+        function selectTopic(topic) {
+            if (isGenerating) return;
+
+            // 若選擇「6. 心理遊戲」，直接切換至心理遊戲專區
+            if (topic.isGameMenu) {
+                switchView('games');
+                return;
+            }
+
+            selectedTopic = topic;
+
+            const userChoiceText = `我想探索主題：【${topic.icon} ${topic.title}】`;
+            appendUserMessage(userChoiceText);
+            chatHistory.push({ role: 'user', parts: [{ text: userChoiceText }] });
+
+            const replyText = `${topic.intro}\n\n（可以直接點選下面最接近的代號氣泡，也可以直接在底下打字跟我說說你的故事喔！）`;
+            const chipsContainer = document.createElement('div');
+            chipsContainer.className = 'flex flex-col gap-2 mt-3';
+
+            topic.scenarios.forEach(scenario => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'craft-btn text-left bg-linen/80 hover:bg-sage-50 border border-sage-400/50 hover:border-sage-500 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-bold text-charcoal flex items-center gap-2.5';
+                btn.onclick = () => selectScenario(scenario);
+
+                btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-xl bg-sage-500 text-white font-black text-xs flex items-center justify-center shrink-0">${scenario.code}</span>
+                    <span class="leading-snug">${scenario.text}</span>
+                `;
+                chipsContainer.appendChild(btn);
+            });
+
+            appendBotMessage(replyText, chipsContainer);
+            chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
+        }
+
+        function selectScenario(scenario) {
+            if (isGenerating) return;
+            selectedScenario = scenario;
+
+            if (scenario.code === 'D' && scenario.text.includes('打字')) {
+                const userText = `我選 ${scenario.code}，我想自己打字補充狀況。`;
+                appendUserMessage(userText);
+                appendBotMessage('沒問題！我在這裡安靜陪著你，你可以把發生的事情、或現在心裡的感覺打在下面的輸入框傳給我 🕊️');
+                document.getElementById('userInput').focus();
+                return;
+            }
+
+            // 右側氣泡顯示學生的選擇，左側機器人進行深度 AI 回應生成
+            appendUserMessage(`${scenario.code}. ${scenario.text}`);
+            const promptForAI = `學生在「${selectedTopic ? selectedTopic.title : '日常心事'}」主題中，選擇了情境 ${scenario.code}：「${scenario.text}」。請以溫暖、有同理心且不說教的國中輔導老師語氣，針對這個困擾給予全新的四段式輔導回饋（【看見與同理】、【換個角度看】、【課堂行動小實驗】、【延伸思考問句】），絕對不要只是重複他的話。`;
+            processAIResponse(promptForAI, { topicId: selectedTopic?.id, scenarioCode: scenario.code, rawUserText: scenario.text });
+        }
+
+        function handleUserSubmit(event) {
+            event.preventDefault();
+            if (isGenerating) return;
+
+            const inputEl = document.getElementById('userInput');
+            const rawText = inputEl.value.trim();
+            if (!rawText) return;
+
+            inputEl.value = '';
+            inputEl.style.height = 'auto';
+
+            // 1. 先在右側顯示學生剛輸入的訊息氣泡
+            appendUserMessage(rawText);
+
+            // 2. 支援直接輸入數字 1~6 選擇主選單
+            if (!selectedTopic && ['1', '2', '3', '4', '5', '6'].includes(rawText)) {
+                const idx = parseInt(rawText, 10) - 1;
+                selectTopic(TOPICS[idx]);
+                return;
+            }
+
+            // 3. 最高優先級：危機關鍵字即時攔截
+            if (checkCrisisKeywords(rawText)) {
+                triggerCrisisProtocol();
+                return;
+            }
+
+            // 4. 呼叫 AI 生成全新輔導回應（傳入明確指令防止覆誦）
+            const promptForAI = `學生剛才傾訴了這段話：「${rawText}」。請不要原封不動覆誦他的句子，而是用溫暖、真誠且不說教的語氣，針對他提到的心事給予全新的四段式輔導回饋（【看見與同理】、【換個角度看】、【課堂行動小實驗】、【延伸思考問句】），字數約 250-350 字。`;
+            processAIResponse(promptForAI, { topicId: selectedTopic?.id || 'general', rawUserText: rawText });
+        }
+
+        // ==========================================
+        // 6. 危機與高關懷事件守護機制
+        // ==========================================
+        function checkCrisisKeywords(text) {
+            return CRISIS_KEYWORDS.some(keyword => text.includes(keyword));
+        }
+
+        function triggerCrisisProtocol() {
+            const crisisCard = document.createElement('div');
+            crisisCard.className = 'mt-3 bg-rose-50 border-2 border-rose-500 rounded-2xl p-4 space-y-3 text-charcoal shadow-sm';
+            crisisCard.innerHTML = `
+                <div class="font-serif font-bold text-rose-600 text-base flex items-center gap-1.5">
+                    <span>🤍</span>
+                    <span>你現在承受的這些真的太辛苦了</span>
+                </div>
+                <p class="text-sm font-medium leading-relaxed">
+                    這不是你的錯，你不需要一個人面對。現在最重要的事，是讓身邊的大人陪你一起度過這個難關：
+                </p>
+                <div class="bg-white rounded-2xl p-3.5 border border-sage-400/60 text-sm space-y-1">
+                    <div class="font-bold text-sage-600">🏫 請立刻尋求現場協助：</div>
+                    <p class="font-medium">1. <strong>現在就舉手</strong>告訴課堂上的輔導老師。</p>
+                    <p class="font-medium">2. 或下課後直接前往<strong>學校輔導室</strong>找老師聊聊。</p>
+                </div>
+                <div class="bg-white rounded-2xl p-3.5 border border-rose-400/60 text-sm space-y-1.5">
+                    <div class="font-bold text-rose-600">📞 24小時免費專業求助專線：</div>
+                    <ul class="space-y-1 font-bold text-charcoal">
+                        <li>• 衛福部安心專線：<span class="text-rose-600 text-base">1925</span></li>
+                        <li>• 生命線協談專線：<span class="text-rose-600 text-base">1995</span></li>
+                        <li>• 張老師輔導專線：<span class="text-rose-600 text-base">1980</span></li>
+                    </ul>
+                </div>
+            `;
+
+            appendBotMessage(
+                '謝謝你願意把這麼沉重的心情說出來。請先停下來深呼吸，看看這張給你的守護卡片：',
+                crisisCard
+            );
+        }
+
+        // ==========================================
+        // 7. Gemini API 串接 + 智慧情境分析備援引擎
+        // ==========================================
+        async function processAIResponse(aiPrompt, meta = {}) {
+            isGenerating = true;
+            updateInputState(true);
+            const typingId = showTypingIndicator();
+
+            // 記錄使用者對話上下文（只存精簡內容避免污染）
+            const cleanUserRecord = meta.rawUserText || aiPrompt;
+            chatHistory.push({ role: 'user', parts: [{ text: cleanUserRecord }] });
+
+            // 組合送給 Gemini 的完整對話歷史，最後一則加上明確的「生成新輔導回應」指引
+            const apiContents = chatHistory.slice(0, -1).map(m => ({
+                role: m.role,
+                parts: [{ text: m.parts[0].text }]
+            }));
+            apiContents.push({
+                role: 'user',
+                parts: [{ text: aiPrompt }]
+            });
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: apiContents,
+                systemInstruction: {
+                    parts: [{ text: SYSTEM_INSTRUCTION }]
+                },
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 900
+                }
+            };
+
+            try {
+                const aiText = await fetchWithExponentialBackoff(apiUrl, payload);
+                removeTypingIndicator(typingId);
+
+                // 防呆檢查：若回傳內容與使用者輸入完全相同，改用智慧情境分析引擎
+                if (aiText.trim() === cleanUserRecord.trim()) {
+                    throw new Error('Echo detected');
+                }
+
+                chatHistory.push({ role: 'model', parts: [{ text: aiText }] });
+                lastAiReflection = aiText;
+
+                appendBotMessage(aiText, renderStep3FollowUpButtons());
+            } catch (error) {
+                removeTypingIndicator(typingId);
+                // 智慧情境分析備援引擎：根據主題與關鍵字給出量身打造的四段式專業回應
+                const smartReply = buildSmartCounselingFallback(meta);
+                chatHistory.push({ role: 'model', parts: [{ text: smartReply }] });
+                lastAiReflection = smartReply;
+                appendBotMessage(smartReply, renderStep3FollowUpButtons());
+            } finally {
+                isGenerating = false;
+                updateInputState(false);
+            }
+        }
+
+        // 智慧情境分析備援引擎（確保無網路或離線環境也絕不會只重複輸入，而是給予專業貼切的四段式回應）
+        function buildSmartCounselingFallback(meta) {
+            const text = (meta.rawUserText || '').toLowerCase();
+            const topicId = meta.topicId || 'general';
+
+            if (topicId === 'friendship' || text.includes('朋友') || text.includes('吵架') || text.includes('排擠') || text.includes('小團體')) {
+                return `【看見與同理】\n在班上每天都要跟同學相處，遇到友情卡關或覺得被疏遠時，心裡一定既委屈又覺得孤單吧？願意把這份在意說出來，代表你真的很珍惜人與人之間的連結。\n\n【換個角度看】\n國中階段大家都在摸索「歸屬感」，有時候小團體的氣氛變化，並不一定是你做錯了什麼，而是每個人都在用自己不成熟的方式尋找安全感。\n\n【課堂行動小實驗】\n明天可以試試「低門檻破冰法」：先不急著擠進大群體，挑一位平常看起來比較友善的同學，從借橡皮擦或問一題作業開始，練習自然地開啟 1 分鐘對話。\n\n【延伸思考問句】\n在交朋友的過程中，你最希望自己被對方怎麼對待呢？`;
+            }
+
+            if (topicId === 'study' || text.includes('考試') || text.includes('讀書') || text.includes('成績') || text.includes('壓力')) {
+                return `【看見與同理】\n面對一波接一波的考試和作業，覺得腦袋快當機、提不起勁，其實是心靈在發出「我需要喘口氣」的訊號，這真的非常正常，請先別責怪自己喔！\n\n【換個角度看】\n很多時候我們一直滑手機、不敢翻開課本，並不是因為懶惰，而是因為「太害怕做不好」，所以大腦自動選擇逃避來保護自己。\n\n【課堂行動小實驗】\n今晚試試「5 分鐘啟動魔法」：告訴自己「我只要看 5 分鐘的書就好，時間到不想看就可以停下來」。通常只要跨過最難的起頭，動力就會慢慢跟上來！\n\n【延伸思考問句】\n如果把這次考試當成一場「幫自己抓漏的小練習」，你最想先弄懂哪一小部分呢？`;
+            }
+
+            if (topicId === 'family' || text.includes('爸媽') || text.includes('父母') || text.includes('家人') || text.includes('手機')) {
+                return `【看見與同理】\n想好好跟爸媽溝通，結果講沒兩句就變成互相指責或冷戰，那種「明明很努力卻不被理解」的無力感，真的會讓人又氣又難過。\n\n【換個角度看】\n爸媽的碎念背後，往往藏著他們對未來的擔心，只是大人有時候也不太會表達關心，一急起來就變成了命令或說教。\n\n【課堂行動小實驗】\n下次氣氛平靜時，試著用「我訊息」替換指責，例如說：「媽，我知道你擔心我成績，但我現在真的很累，讓我休息 20 分鐘後我就去寫作業，好嗎？」\n\n【延伸思考問句】\n你最希望爸媽能聽見你心裡的哪一句真心話呢？`;
+            }
+
+            if (topicId === 'love' || text.includes('喜歡') || text.includes('暗戀') || text.includes('告白') || text.includes('好感')) {
+                return `【看見與同理】\n心裡偷偷裝著一個人，每天因為對方的一個眼神或一句話而小鹿亂撞、甚至有點心神不寧，這份酸酸甜甜的心情，正是青春期最真實也最珍貴的體驗。\n\n【換個角度看】\n喜歡一個人會想展現最好的一面，但健康的情感關係是「兩個人都能自在做自己」，不需要為了迎合對方而委屈或失去原本的步調。\n\n【課堂行動小實驗】\n這週試著把注意力分一半回到自己身上：專注做好一件你擅長的事，並在遇到對方時，像對待好朋友一樣自然地微笑打招呼。\n\n【延伸思考問句】\n喜歡上這個人之後，你覺得自己身上多了什麼正向的改變呢？`;
+            }
+
+            return `【看見與同理】\n謝謝你願意把這份心事帶到心靈導航來！在成長的路上遇到覺得卡卡的、有點迷茫或煩躁的時刻，其實代表你正在認真感受生活，這份覺察本身就很不容易。\n\n【換個角度看】\n當情緒像一團毛線球纏在一起時，我們不需要立刻把整團解開，只要先找到其中一條線頭輕輕拉出來，事情就會慢慢變得清晰。\n\n【課堂行動小實驗】\n今天下課前，試著在紙上寫下「現在讓我最在意的 1 件事」以及「我現在能控制的 1 個小步驟」，把注意力放回自己能掌握的地方。\n\n【延伸思考問句】\n如果現在有一位最懂你的好朋友坐在旁邊，你最希望他陪你做什麼呢？`;
+        }
+
+        async function fetchWithExponentialBackoff(url, payload, maxRetries = 3) {
+            const delays = [1000, 2000, 4000];
+            for (let attempt = 0; attempt <= maxRetries; attempt++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const result = await response.json();
+                    const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (!text) throw new Error('Empty response');
+                    return text.trim();
+                } catch (err) {
+                    if (attempt === maxRetries) throw err;
+                    await new Promise(resolve => setTimeout(resolve, delays[attempt]));
+                }
+            }
+        }
+
+        function renderStep3FollowUpButtons() {
+            const container = document.createElement('div');
+            container.className = 'flex flex-wrap gap-2 mt-3.5 pt-3 border-t border-dashed border-caramel-200';
+            container.innerHTML = `
+                <button type="button" onclick="openRainbowModal()" class="craft-btn morandi-rainbow-btn text-white text-xs font-bold px-3.5 py-2 rounded-xl flex items-center gap-1">
+                    <span>🌈</span>
+                    <span>抽一張彩虹卡祝福</span>
+                </button>
+                <button type="button" onclick="switchView('games')" class="craft-btn bg-sage-100 hover:bg-sage-400/30 text-sage-600 text-xs font-bold px-3 py-2 rounded-xl border border-sage-400/50 flex items-center gap-1">
+                    <span>🎲</span>
+                    <span>玩個心理測驗</span>
+                </button>
+                <button type="button" onclick="focusReplyInput()" class="craft-btn bg-oat-100 hover:bg-oat-400/50 text-charcoal text-xs font-bold px-3 py-2 rounded-xl border border-oat-400 flex items-center gap-1">
+                    <span>✍️</span>
+                    <span>回答延伸思考問句</span>
+                </button>
+                <button type="button" onclick="resetChat()" class="craft-btn bg-white hover:bg-linen text-caramel-600 text-xs font-bold px-3 py-2 rounded-xl border border-caramel-200 flex items-center gap-1">
+                    <span>🔄</span>
+                    <span>換個主題</span>
+                </button>
+            `;
+            return container;
+        }
+
+        function focusReplyInput() {
+            const input = document.getElementById('userInput');
+            input.placeholder = '寫下你對上面那個問題的想法吧...';
+            input.focus();
+        }
+
+        // ==========================================
+        // 8. 🎲 12 款心理遊戲渲染與互動邏輯
+        // ==========================================
+        function renderGamesGrid(categoryFilter = 'all') {
+            const grid = document.getElementById('gamesGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            // 更新篩選按鈕高亮樣式
+            document.querySelectorAll('.game-filter-btn').forEach(btn => {
+                const isSelected = btn.getAttribute('data-cat') === categoryFilter;
+                if (isSelected) {
+                    btn.classList.add('ring-2', 'ring-caramel-500', 'scale-105');
+                } else {
+                    btn.classList.remove('ring-2', 'ring-caramel-500', 'scale-105');
+                }
+            });
+
+            const filtered = categoryFilter === 'all'
+                ? PSYCH_TESTS
+                : PSYCH_TESTS.filter(t => t.category === categoryFilter);
+
+            filtered.forEach((test, idx) => {
+                const card = document.createElement('div');
+                card.className = 'journal-card p-5 flex flex-col justify-between gap-4 hover:border-rose-400 transition-colors msg-animate';
+                const tapeClass = idx % 3 === 0 ? '' : (idx % 3 === 1 ? 'washi-tape-sage' : 'washi-tape-oat');
+
+                card.innerHTML = `
+                    <div class="washi-tape ${tapeClass}"></div>
+                    <div class="space-y-2.5 pt-1">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${test.catBadgeClass}">${test.catLabel}</span>
+                            <span class="text-xs font-bold text-caramel-400">No.${String(idx + 1).padStart(2, '0')}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-linen border border-caramel-100 flex items-center justify-center text-2xl shrink-0">
+                                ${test.icon}
+                            </div>
+                            <h3 class="font-serif text-lg font-bold text-charcoal leading-snug">${test.title}</h3>
+                        </div>
+                        <p class="text-xs sm:text-[13px] text-caramel-500 font-medium leading-relaxed">
+                            ${test.subtitle}
+                        </p>
+                    </div>
+                    <button type="button" onclick="openQuizModal('${test.id}')" class="w-full craft-btn bg-linen hover:bg-rose-500 hover:text-white text-charcoal font-bold text-xs sm:text-sm py-2.5 px-4 rounded-xl border border-caramel-200 flex items-center justify-center gap-1.5 transition-colors">
+                        <span>✨</span>
+                        <span>開始測驗</span>
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterGames(category) {
+            renderGamesGrid(category);
+        }
+
+        function openQuizModal(testId) {
+            const test = PSYCH_TESTS.find(t => t.id === testId);
+            if (!test) return;
+
+            activeQuiz = test;
+            activeQuizOption = null;
+
+            const modal = document.getElementById('quizPlayModal');
+            const qStage = document.getElementById('quizQuestionStage');
+            const rStage = document.getElementById('quizResultStage');
+
+            qStage.classList.remove('hidden');
+            rStage.classList.add('hidden');
+
+            document.getElementById('quizCategoryBadge').className = `text-xs font-bold px-3 py-1 rounded-full ${test.catBadgeClass}`;
+            document.getElementById('quizCategoryBadge').textContent = test.catLabel;
+            document.getElementById('quizIconBox').textContent = test.icon;
+            document.getElementById('quizTitle').textContent = test.title;
+            document.getElementById('quizScenario').textContent = test.question;
+
+            const optionsList = document.getElementById('quizOptionsList');
+            optionsList.innerHTML = '';
+
+            test.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'w-full craft-btn text-left bg-paper hover:bg-oat-50 border-2 border-caramel-100 hover:border-rose-400 rounded-2xl p-3.5 text-xs sm:text-sm font-bold text-charcoal leading-snug transition-colors';
+                btn.textContent = opt.label;
+                btn.onclick = () => showQuizResult(opt);
+                optionsList.appendChild(btn);
+            });
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function showQuizResult(optionObj) {
+            activeQuizOption = optionObj;
+            const qStage = document.getElementById('quizQuestionStage');
+            const rStage = document.getElementById('quizResultStage');
+
+            qStage.classList.add('hidden');
+            rStage.classList.remove('hidden');
+
+            document.getElementById('quizResultMainTitle').textContent = optionObj.resultTitle;
+            document.getElementById('quizResultEmoji').textContent = optionObj.emoji;
+            document.getElementById('quizResultDesc').textContent = optionObj.desc;
+            document.getElementById('quizResultAdvice').textContent = optionObj.advice;
+
+            const saveBtn = document.getElementById('saveQuizBtn');
+            saveBtn.innerHTML = '<span>📌</span><span>收進學習單小抄</span>';
+            saveBtn.disabled = false;
+        }
+
+        function closeQuizModal() {
+            const modal = document.getElementById('quizPlayModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function saveQuizToWorksheet() {
+            if (!activeQuiz || !activeQuizOption) return;
+            const record = `${activeQuiz.icon}【${activeQuiz.title}】→ ${activeQuizOption.resultTitle}（${activeQuizOption.advice}）`;
+            if (!savedQuizResults.includes(record)) {
+                savedQuizResults.push(record);
+            }
+            const saveBtn = document.getElementById('saveQuizBtn');
+            saveBtn.innerHTML = '<span>✅</span><span>已收進小抄！</span>';
+            saveBtn.disabled = true;
+        }
+
+        function discussQuizWithAI() {
+            if (!activeQuiz || !activeQuizOption) return;
+            saveQuizToWorksheet();
+            const quizSnapshot = activeQuiz;
+            const optSnapshot = activeQuizOption;
+
+            closeQuizModal();
+            switchView('chat');
+
+            const userBubbleText = `我剛玩了心理測驗【${quizSnapshot.icon} ${quizSnapshot.title}】，測出來的結果是「${optSnapshot.resultTitle}」！`;
+            appendUserMessage(userBubbleText);
+
+            const aiPrompt = `學生剛完成了心理測驗「${quizSnapshot.title}」（領域：${quizSnapshot.catLabel}），測驗結果是「${optSnapshot.resultTitle}」，結果解析為：「${optSnapshot.desc}」。請用溫暖、鼓勵且不說教的國中輔導老師語氣，結合他的測驗結果與國中校園生活，給予全新的四段式回饋（【看見與同理】、【換個角度看】、【課堂行動小實驗】、【延伸思考問句】），字數約 250-350 字。`;
+            processAIResponse(aiPrompt, { topicId: 'self', rawUserText: userBubbleText });
+        }
+
+        // ==========================================
+        // 9. 🌈 彩虹卡抽卡站邏輯
+        // ==========================================
+        function openRainbowModal() {
+            const modal = document.getElementById('rainbowModal');
+            resetRainbowDeck();
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeRainbowModal() {
+            const modal = document.getElementById('rainbowModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function resetRainbowDeck() {
+            const deckView = document.getElementById('rainbowDeckView');
+            const resultView = document.getElementById('rainbowResultView');
+            const guideText = document.getElementById('rainbowGuideText');
+            const flipInner = document.getElementById('rainbowFlipInner');
+            const saveBtn = document.getElementById('saveCardBtn');
+
+            flipInner.classList.remove('is-flipped');
+            deckView.classList.remove('hidden');
+            resultView.classList.add('hidden');
+            resultView.classList.remove('flex');
+            guideText.textContent = '閉上眼睛深呼吸，憑直覺點選一張彩虹卡，或按下方的隨機抽取按鈕！';
+
+            if (saveBtn) {
+                saveBtn.innerHTML = '<span>📌</span><span>收進學習單小抄</span>';
+                saveBtn.disabled = false;
+            }
+
+            const grid = deckView.querySelector('div');
+            grid.innerHTML = '';
+            const shuffled = [...RAINBOW_CARDS].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach((cardObj, idx) => {
+                const cardBtn = document.createElement('button');
+                cardBtn.type = 'button';
+                cardBtn.onclick = () => revealRainbowCard(cardObj);
+                const tiltAngles = ['-rotate-3', '-rotate-2', '-rotate-1', 'rotate-0', 'rotate-1', 'rotate-2', 'rotate-3'];
+                cardBtn.className = `card-back-pattern h-28 sm:h-36 rounded-2xl border-2 border-white shadow-md flex flex-col items-center justify-center text-white transition-all duration-300 hover:-translate-y-2.5 hover:scale-105 hover:shadow-xl ${tiltAngles[idx]} cursor-pointer group`;
+                cardBtn.innerHTML = `
+                    <span class="text-2xl sm:text-3xl group-hover:scale-125 transition-transform">☁️</span>
+                    <span class="text-[10px] sm:text-xs font-bold tracking-wider mt-1.5 bg-white/25 px-2 py-0.5 rounded-full">No.${idx + 1}</span>
+                `;
+                grid.appendChild(cardBtn);
+            });
+        }
+
+        function drawRandomRainbowCard() {
+            const randomCard = RAINBOW_CARDS[Math.floor(Math.random() * RAINBOW_CARDS.length)];
+            revealRainbowCard(randomCard);
+        }
+
+        function revealRainbowCard(cardObj) {
+            const deckView = document.getElementById('rainbowDeckView');
+            const resultView = document.getElementById('rainbowResultView');
+            const guideText = document.getElementById('rainbowGuideText');
+            const flipInner = document.getElementById('rainbowFlipInner');
+            const cardFace = document.getElementById('rainbowCardFace');
+            const badge = document.getElementById('cardColorBadge');
+            const quoteText = document.getElementById('cardQuoteText');
+            const watermark = document.getElementById('cardWatermark');
+
+            const chosenQuote = cardObj.quotes[Math.floor(Math.random() * cardObj.quotes.length)];
+            currentDrawnCard = { ...cardObj, chosenQuote };
+
+            cardFace.style.background = cardObj.bgGradient;
+            cardFace.className = `flip-card-back border-4 border-white shadow-xl p-6 flex flex-col justify-between text-center relative overflow-hidden ${cardObj.textColor}`;
+            badge.className = `inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs sm:text-sm font-bold bg-white/90 shadow-2xs ${cardObj.badgeTextColor}`;
+            badge.innerHTML = `<span>${cardObj.emoji}</span><span>${cardObj.label}</span>`;
+            quoteText.textContent = `「${chosenQuote}」`;
+            watermark.textContent = cardObj.watermark;
+
+            deckView.classList.add('hidden');
+            resultView.classList.remove('hidden');
+            resultView.classList.add('flex');
+            guideText.textContent = '✨ 這是宇宙和彩虹今天想送給你的專屬祝福：';
+
+            setTimeout(() => {
+                flipInner.classList.add('is-flipped');
+            }, 80);
+        }
+
+        function saveCardToWorksheet() {
+            if (!currentDrawnCard) return;
+            const entry = `${currentDrawnCard.emoji}【${currentDrawnCard.label}】：「${currentDrawnCard.chosenQuote}」`;
+            if (!savedRainbowCards.includes(entry)) {
+                savedRainbowCards.push(entry);
+            }
+            const saveBtn = document.getElementById('saveCardBtn');
+            saveBtn.innerHTML = '<span>✅</span><span>已收進小抄！</span>';
+            saveBtn.disabled = true;
+        }
+
+        function chatAboutDrawnCard() {
+            if (!currentDrawnCard) return;
+            saveCardToWorksheet();
+            const cardInfo = currentDrawnCard;
+            closeRainbowModal();
+            switchView('chat');
+
+            const userMsg = `我剛剛抽到一張彩虹卡 ${cardInfo.emoji}【${cardInfo.label}】，上面寫著：「${cardInfo.chosenQuote}」`;
+            appendUserMessage(userMsg);
+
+            const aiPrompt = `學生剛剛抽到了一張心靈彩虹卡：${cardInfo.emoji}【${cardInfo.label}】，肯定語錄是：「${cardInfo.chosenQuote}」。請結合這張彩虹卡的能量，用溫暖不說教的國中輔導老師語氣給予全新的四段式回饋（【看見與同理】、【換個角度看】、【課堂行動小實驗】、【延伸思考問句】），字數約 250-350 字。`;
+            processAIResponse(aiPrompt, { topicId: 'self', rawUserText: userMsg });
+        }
+
+        // ==========================================
+        // 10. 氣泡渲染與輔助工具
+        // ==========================================
+        function appendBotMessage(text, extraElement = null, topHeaderElement = null) {
+            const chatContainer = document.getElementById('chatContainer');
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex items-start gap-2.5 sm:gap-3 msg-animate';
+
+            const formattedHtml = formatMessageText(text);
+
+            wrapper.innerHTML = `
+                <div class="w-10 h-10 rounded-2xl bg-oat-100 border border-caramel-400/50 flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
+                    <svg class="w-6 h-6 text-caramel-500" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="24" cy="24" r="16" />
+                        <polygon points="24,14 28,24 24,34 20,24" fill="#E2B4A6" stroke="#8C6D5E" stroke-width="1.8" />
+                        <circle cx="24" cy="24" r="2" fill="#4A443F" />
+                    </svg>
+                </div>
+                <div class="journal-card rounded-tl-md px-4 py-3.5 sm:px-5 sm:py-4 max-w-[89%] sm:max-w-[83%] text-sm sm:text-[15px] leading-relaxed text-charcoal">
+                    <div class="bot-header-slot"></div>
+                    <div class="space-y-2 font-medium">${formattedHtml}</div>
+                    <div class="bot-extra-slot"></div>
+                </div>
+            `;
+
+            if (topHeaderElement) {
+                wrapper.querySelector('.bot-header-slot').appendChild(topHeaderElement);
+            }
+            if (extraElement) {
+                wrapper.querySelector('.bot-extra-slot').appendChild(extraElement);
+            }
+
+            chatContainer.appendChild(wrapper);
+            scrollToBottom();
+        }
+
+        function appendUserMessage(text) {
+            const chatContainer = document.getElementById('chatContainer');
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex items-start justify-end gap-2.5 msg-animate';
+
+            const safeText = escapeHtml(text).replace(/\n/g, '<br>');
+
+            wrapper.innerHTML = `
+                <div class="craft-btn bg-sage-500 text-white rounded-3xl rounded-tr-md px-4 py-3 sm:px-5 sm:py-3.5 border border-sage-600/30 max-w-[85%] sm:max-w-[75%] text-sm sm:text-[15px] font-bold leading-relaxed">
+                    ${safeText}
+                </div>
+            `;
+
+            chatContainer.appendChild(wrapper);
+            scrollToBottom();
+        }
+
+        function showTypingIndicator() {
+            const chatContainer = document.getElementById('chatContainer');
+            const id = 'typing-' + Date.now();
+            const wrapper = document.createElement('div');
+            wrapper.id = id;
+            wrapper.className = 'flex items-start gap-2.5 msg-animate';
+            wrapper.innerHTML = `
+                <div class="w-10 h-10 rounded-2xl bg-oat-100 border border-caramel-400/50 flex items-center justify-center text-lg shrink-0">
+                    🧭
+                </div>
+                <div class="journal-card rounded-tl-md px-4 py-3.5 flex items-center gap-1.5">
+                    <span class="w-2 h-2 bg-rose-400 rounded-full typing-dot"></span>
+                    <span class="w-2 h-2 bg-oat-500 rounded-full typing-dot"></span>
+                    <span class="w-2 h-2 bg-sage-500 rounded-full typing-dot"></span>
+                    <span class="text-xs font-bold text-caramel-500 ml-1.5">小幫手正在用心傾聽並整理思緒中...</span>
+                </div>
+            `;
+            chatContainer.appendChild(wrapper);
+            scrollToBottom();
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function formatMessageText(raw) {
+            const escaped = escapeHtml(raw);
+            return escaped
+                .split('\n')
+                .map(line => {
+                    let formatted = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-rose-600">$1</strong>');
+                    formatted = formatted.replace(/(【.*?】)/g, '<span class="inline-block font-serif font-bold text-charcoal bg-oat-100 border border-oat-400 px-2.5 py-0.5 rounded-xl mr-1">$1</span>');
+                    return formatted ? `<p>${formatted}</p>` : '<div class="h-1"></div>';
+                })
+                .join('');
+        }
+
+        function escapeHtml(str) {
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function scrollToBottom() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function autoResizeTextarea(el) {
+            el.style.height = 'auto';
+            el.style.height = Math.min(el.scrollHeight, 128) + 'px';
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                handleUserSubmit(event);
+            }
+        }
+
+        function updateInputState(disabled) {
+            const input = document.getElementById('userInput');
+            const btn = document.getElementById('sendBtn');
+            input.disabled = disabled;
+            btn.disabled = disabled;
+            if (!disabled) input.focus();
+        }
+
+        function resetChat() {
+            switchView('chat');
+            initWelcomeScreen();
+        }
+
+        // ==========================================
+        // 11. 學習單小抄與求助 Modal 控制
+        // ==========================================
+        function openHelpModal() {
+            const modal = document.getElementById('helpModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeHelpModal() {
+            const modal = document.getElementById('helpModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function openWorksheetModal() {
+            const modal = document.getElementById('worksheetModal');
+            const contentEl = document.getElementById('worksheetContent');
+            document.getElementById('copyToast').classList.add('hidden');
+
+            const today = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' });
+            const topicName = selectedTopic ? `${selectedTopic.icon} ${selectedTopic.title}` : '自由心事與心理測驗探索';
+            const scenarioName = selectedScenario ? `${selectedScenario.code}. ${selectedScenario.text}` : '自由描述與分享';
+
+            const userMessages = chatHistory
+                .filter(m => m.role === 'user')
+                .map(m => m.parts[0].text)
+                .join('\n• ');
+
+            const quizSection = savedQuizResults.length > 0
+                ? savedQuizResults.join('\n')
+                : '（還沒玩心理測驗喔！可點上方「🎲 心理遊戲」探索 12 款測驗）';
+
+            const rainbowSection = savedRainbowCards.length > 0
+                ? savedRainbowCards.join('\n')
+                : '（還沒抽彩虹卡喔！可點上方「🌈 彩虹抽卡」領取今日能量語錄）';
+
+            const summaryText = `【🧭 國中輔導活動課 — 心靈導航學習單小抄】
+日期：${today}
+探索主題：${topicName}
+情境焦點：${scenarioName}
+
+🎲 我的心理遊戲發現：
+${quizSection}
+
+🌈 我抽到的心靈彩虹卡：
+${rainbowSection}
+
+📌 我的分享與想法紀錄：
+• ${userMessages || '（尚未輸入文字分享）'}
+
+💡 小幫手給我的溫暖回饋與行動小實驗：
+${lastAiReflection ? lastAiReflection.replace(/\*\*/g, '') : '（與小幫手對話後，這裡會自動整理回饋重點喔！）'}
+
+✍️ 我的課堂反思（抄寫進學習單）：
+我決定明天試試看的微行動是：＿＿＿＿＿＿＿＿＿＿`;
+
+            contentEl.textContent = summaryText;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeWorksheetModal() {
+            const modal = document.getElementById('worksheetModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function copyWorksheetNote() {
+            const content = document.getElementById('worksheetContent').textContent;
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = content;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+
+            const toast = document.getElementById('copyToast');
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
